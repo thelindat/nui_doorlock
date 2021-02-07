@@ -1,5 +1,4 @@
 $('document').ready(function() {
-    $('.container').hide()
 
     window.addEventListener("message", function (event) {
         if (event.data.action == 'audio') {
