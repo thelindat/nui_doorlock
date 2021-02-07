@@ -261,6 +261,7 @@ Citizen.CreateThread(function()
 			lastCoords = playerCoords
 		end
 		Citizen.Wait(500)
+		if doorCount == 0 then Citizen.Wait(500) end
 	end
 end)
 
@@ -319,7 +320,9 @@ Citizen.CreateThread(function()
 				end
 				closestDoor, closestV, closestDistance = nil, nil, nil
 			end
-		else doorSleep = 300 Citizen.Wait(100) end
+		end
+		
+		if doorCount == 0 then doorSleep = 1000 Citizen.Wait(900) end
 	end
 end)
 
@@ -368,7 +371,7 @@ RegisterKeyMapping('doorlock', 'Interact with a door lock', 'keyboard', 'e')
 
 RegisterNetEvent('nui_doorlock:newDoorSetup')
 AddEventHandler('nui_doorlock:newDoorSetup', function(group, args)
-	if group and group == 'user' then return end
+	if not group or group == 'user' then return end
 	if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
 	local doorType = args[1]
 	local doorLocked = not not args[2]
