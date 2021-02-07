@@ -16,9 +16,10 @@ Citizen.CreateThread(function()
 		file:close()
 		if #json.decode(data) > #Config.DoorList then -- Config.DoorList contains less doors than states.json, so don't restore states
 			return
-		end
-		for k,v in pairs(json.decode(data)) do
-			doorInfo[k] = v
+		else
+			for k,v in pairs(json.decode(data)) do
+				doorInfo[k] = v
+			end
 		end
 	end
 end)
@@ -83,14 +84,13 @@ function IsAuthorized(jobName, doorID)
 end
 
 RegisterCommand('newdoor', function(playerId, args, rawCommand)
-	xPlayer = ESX.GetPlayerFromId(playerId)
-	TriggerClientEvent('nui_doorlock:newDoorSetup', playerId, xPlayer.getGroup(), args)
-end, false)
+	TriggerClientEvent('nui_doorlock:newDoorSetup', playerId, args)
+end, true)
 
 RegisterServerEvent('nui_doorlock:newDoorCreate')
 AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, doubleDoor)
+	if not IsPlayerAceAllowed(source, 'command.newdoor') then return end
 	xPlayer = ESX.GetPlayerFromId(source)
-	if xPlayer.getGroup() == 'user' then return end
 	doorLocked = tostring(doorLocked)
 	slides = tostring(slides)
 	garage = tostring(garage)
