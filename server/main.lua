@@ -14,6 +14,9 @@ Citizen.CreateThread(function()
 	else
 		local data = file:read('*a')
 		file:close()
+		if #json.decode(data) > #Config.DoorList then -- Config.DoorList contains less doors than states.json, so don't restore states
+			return
+		end
 		for k,v in pairs(json.decode(data)) do
 			doorInfo[k] = v
 		end
@@ -131,6 +134,6 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	config = tostring(config:sub(1, -2))
 
 	file = io.open(path, 'w+')
-	file:write(config..'-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n'..doorConfig..',\n\n}')
+	file:write(config..'	-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n'..doorConfig..',\n\n}')
 	file:close()
 end)
