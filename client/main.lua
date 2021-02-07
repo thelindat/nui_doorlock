@@ -370,8 +370,7 @@ RegisterKeyMapping('doorlock', 'Interact with a door lock', 'keyboard', 'e')
 
 
 RegisterNetEvent('nui_doorlock:newDoorSetup')
-AddEventHandler('nui_doorlock:newDoorSetup', function(group, args)
-	if not group or group == 'user' then return end
+AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 	if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
 	local doorType = args[1]
 	local doorLocked = not not args[2]
