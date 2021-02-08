@@ -16,7 +16,7 @@ Citizen.CreateThread(function()
 		file:close()
 		if #json.decode(data) > #Config.DoorList then -- Config.DoorList contains less doors than states.json, so don't restore states
 			return
-		else
+		elseif #json.decode(data) > 0 then
 			for k,v in pairs(json.decode(data)) do
 				doorInfo[k] = v
 			end
