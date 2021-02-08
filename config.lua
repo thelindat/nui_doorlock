@@ -2,330 +2,355 @@ Config = {}
 Config.ShowUnlockedText = false
 
 Config.DoorList = {
+
 ------------------------------------------
---	MISSION ROW POLICE DEPARTMENT		--
+--	COMMUNITY MISSION ROW PD
+--	https://www.gta5-mods.com/maps/community-mission-row-pd
 ------------------------------------------
-	-- gabz_mrpd	FRONT DOORS
+
+	-- MRPD MAIN ENTRANCE
 	{
 		authorizedJobs = { 'police', 'offpolice' },
 		locked = false,
-		maxDistance = 2.0,
+		maxDistance = 2.5,
 		doors = {
-			{objHash = -1547307588, objHeading = 90.0, objCoords = vector3(434.7444, -983.0781, 30.8153)},
-			{objHash = -1547307588, objHeading = 270.0, objCoords = vector3(434.7444, -980.7556, 30.8153)}
+			{objHash = -1215222675, objHeading = 270.0, objCoords = vector3(434.7479, -980.6184, 30.83927)},
+			{objHash = 320433149, objHeading = 270.0, objCoords = vector3(434.7479, -983.2151, 30.83927)}
 		},
 		
 	},
 
-	-- gabz_mrpd	NORTH DOORS
+	-- MRPD BACK ENTRANCE
 	{
-		authorizedJobs = { 'police', 'offpolice' },
+		authorizedJobs = { 'police' },
 		locked = true,
-		maxDistance = 2.0,
+		maxDistance = 2.5,
 		doors = {
-			{objHash = -1547307588, objHeading = 180.0, objCoords = vector3(458.2087, -972.2543, 30.8153)},
-			{objHash = -1547307588, objHeading = 0.0, objCoords = vector3(455.8862, -972.2543, 30.8153)}
-		},
-		
+			{objHash = -2023754432, objHeading = 180.0, objCoords = vector3(469.968, -1014.452, 26.53624)},
+			{objHash = -2023754432, objHeading = 0.0, objCoords = vector3(467.3716, -1014.452, 26.53624)}
+		}
 	},
 
-	-- gabz_mrpd	SOUTH DOORS
+	-- MRPD BACK ENTRANCE INSIDE
 	{
-		authorizedJobs = { 'police', 'offpolice' },
-		locked = true,
-		maxDistance = 2.0,
-		doors = {
-			{objHash = -1547307588, objHeading = 0.0, objCoords = vector3(440.7392, -998.7462, 30.8153)},
-			{objHash = -1547307588, objHeading = 180.0, objCoords = vector3(443.0618, -998.7462, 30.8153)}
-		},
-		
-	},
-
-	-- gabz_mrpd	LOBBY LEFT
-
-
-	{
-		authorizedJobs = {'police'},
-		objHash = -1406685646,
+		objHash = -1033001619,
 		objHeading = 0.0,
-		objCoords = vector3(441.13, -977.93, 30.82319),
-		locked = true,
-		maxDistance = 2.0,
-		fixText = true
-	
-	},
-
-	-- gabz_mrpd	LOBBY RIGHT
-	{
-		objHash = -96679321,
-		objHeading = 180.0,
-		objCoords = vector3(440.5201, -986.2335, 30.82319),
-		authorizedJobs = { 'police', 'offpolice' },
+		objCoords = vector3(463.4783, -1003.538, 25.00599),
+		authorizedJobs = { 'police' },
 		locked = true,
 		maxDistance = 2.0,
 		fixText = true
 	},
 
-	-- gabz_mrpd	GARAGE ENTRANCE 1
-	{
-		objHash = 1830360419,
-		objHeading = 269.78,
-		objCoords = vector3(464.1591, -974.6656, 26.3707),
-		authorizedJobs = { 'police', 'offpolice' },
-		locked = true,
-		maxDistance = 2.0,
-	},
-
-	-- gabz_mrpd	GARAGE ENTRANCE 2
-	{
-		objHash = 1830360419,
-		objHeading = 89.87,
-		objCoords = vector3(464.1566, -997.5093, 26.3707),
-		authorizedJobs = { 'police', 'offpolice' },
-		locked = true,
-		maxDistance = 2.0,
-		fixText = true
-	},
-	
-	-- gabz_mrpd	GARAGE ROLLER DOOR 1
-	{
-		objHash = 2130672747,
-		objHeading = 0.0,
-		objCoords = vector3(431.4119, -1000.772, 26.69661),
-		authorizedJobs = { 'police', 'offpolice' },
-		locked = true,
-		maxDistance = 6,
-		garage = true,
-		slides = true,
-		audioRemote = true
-	},
-	
-	-- gabz_mrpd	GARAGE ROLLER DOOR 2
-	{
-		objHash = 2130672747,
-		objHeading = 0.0,
-		objCoords = vector3(452.3005, -1000.772, 26.69661),
-		authorizedJobs = { 'police', 'offpolice' },
-		locked = true,
-		maxDistance = 6,
-		garage = true,
-		slides = true,
-		audioRemote = true
-	},
-	
-	-- gabz_mrpd	BACK GATE
+	-- MRPD BACK GATE
 	{
 		objHash = -1603817716,
 		objHeading = 90.0,
-		objCoords = vector3(488.8948, -1017.212, 27.14935),
-		authorizedJobs = { 'police', 'offpolice' },
+		objCoords = vector3(488.8948, -1017.21, 27.14863),
+		authorizedJobs = { 'police' },
 		locked = true,
-		maxDistance = 6,
+		maxDistance = 5,
+		slides = true,
+		audioRemote = true
+	},
+	
+	-- MRPD GARAGE 1
+	{
+		objHash = -190780785,
+		objHeading = 0.0,
+		objCoords = vector3(431.4056, -1001.169, 26.71261),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 5,
+		garage = true,
+		slides = true,
+		audioRemote = true
+	},
+	-- MRPD GARAGE 2
+	{
+		objHash = -190780785,
+		objHeading = 0.0,
+		objCoords = vector3(436.2234, -1001.169, 26.71261),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 5,
+		garage = true,
 		slides = true,
 		audioRemote = true
 	},
 
-	-- gabz_mrpd	BACK DOORS
+	-- MRPD LOCKER ROOMS
 	{
+		objHash = 1557126584,
+		objHeading = 90.0,
+		objCoords = vector3(450.1042, -985.7384, 30.83931),
 		authorizedJobs = { 'police', 'offpolice' },
 		locked = true,
-		maxDistance = 2.0,
-		doors = {
-			{objHash = -692649124, objHeading = 0.0, objCoords = vector3(467.3686, -1014.406, 26.48382)},
-			{objHash = -692649124, objHeading = 180.0, objCoords = vector3(469.7743, -1014.406, 26.48382)}
-		},
-		
+		maxDistance = 2.0
 	},
 
-	-- gabz_mrpd	MUGSHOT
+	-- MRPD OUTSIDE BALCONY
 	{
-		objHash = -1406685646,
-		objHeading = 180.0,
-		objCoords = vector3(475.9539, -1010.819, 26.40639),
+		objHash = 507213820,
+		objHeading = 0.2,
+		objCoords = vector3(464.1584, -1011.26, 33.01121),
 		authorizedJobs = { 'police' },
 		locked = true,
 		maxDistance = 2.0,
 	},
 
-	-- gabz_mrpd	CELL ENTRANCE 1
+	-- MRPD DOOR TO STAIRWELL AND ROOF
 	{
-		objHash = -53345114,
-		objHeading = 270.0,
-		objCoords = vector3(476.6157, -1008.875, 26.48005),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		fixText = true,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
-		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
-	},
-
-	-- gabz_mrpd	CELL ENTRANCE 2
-	{
-		objHash = -53345114,
-		objHeading = 180.0,
-		objCoords = vector3(481.0084, -1004.118, 26.48005),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		fixText = true,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
-		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
-	},
-
-	-- gabz_mrpd	CELL 1
-	{
-		objHash = -53345114,
-		objHeading = 0.0,
-		objCoords = vector3(477.9126, -1012.189, 26.48005),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
-		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
-	},
-
-	-- gabz_mrpd	CELL 2
-	{
-		objHash = -53345114,
-		objHeading = 0.0,
-		objCoords = vector3(480.9128, -1012.189, 26.48005),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
-		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
-	},
-
-	-- gabz_mrpd	CELL 3
-	{
-		objHash = -53345114,
-		objHeading = 0.0,
-		objCoords = vector3(483.9127, -1012.189, 26.48005),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
-		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
-	},
-
-	-- gabz_mrpd	CELL 4
-	{
-		objHash = -53345114,
-		objHeading = 0.0,
-		objCoords = vector3(486.9131, -1012.189, 26.48005),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
-		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
-	},
-
-	-- gabz_mrpd	CELL 5
-	{
-		objHash = -53345114,
-		objHeading = 180.0,
-		objCoords = vector3(484.1764, -1007.734, 26.48005),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		fixText = true,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
-		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
-	},
-
-	-- gabz_mrpd	LINEUP
-	{
-		objHash = -288803980,
+		objHash = 749848321,
 		objHeading = 90.0,
-		objCoords = vector3(479.06, -1003.173, 26.4065),
+		objCoords = vector3(461.2865, -985.3206, 30.83927),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+	},
+
+	-- MRPD CAPTAIN'S OFFICE
+	{
+		objHash = -1320876379,
+		objHeading = 180.0,
+		objCoords = vector3(446.5728, -980.0106, 30.83931),
 		authorizedJobs = { 'police' },
 		locked = true,
 		maxDistance = 2.0,
 		fixText = true
 	},
 
-	-- gabz_mrpd	OBSERVATION I
+	-- MRPD ARMOURY
 	{
-		objHash = -1406685646,
-		objHeading = 270.0,
-		objCoords = vector3(482.6694, -983.9868, 26.40548),
+		objHash = -1033001619,
+		objHeading = 90.6,
+		objCoords = vector3(453.0938, -983.2294, 30.83927),
 		authorizedJobs = { 'police' },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true,
+		oldMethod = true
 	},
 
-	-- gabz_mrpd	INTERROGATION I
+	-- MRPD ROOFTOP
 	{
-		objHash = -1406685646,
-		objHeading = 270.0,
-		objCoords = vector3(482.6701, -987.5792, 26.40548),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-	},
-
-	-- gabz_mrpd	OBSERVATION II
-	{
-		objHash = -1406685646,
-		objHeading = 270.0,
-		objCoords = vector3(482.6699, -992.2991, 26.40548),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-	},
-
-	-- gabz_mrpd	INTERROGATION II
-	{
-		objHash = -1406685646,
-		objHeading = 270.0,
-		objCoords = vector3(482.6703, -995.7285, 26.40548),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-	},
-
-	-- gabz_mrpd	EVIDENCE
-	{
-		objHash = -692649124,
-		objHeading = 134.7,
-		objCoords = vector3(475.8323, -990.4839, 26.40548),
-		authorizedJobs = { 'police' },
-		locked = true,
-		maxDistance = 2.0,
-		setText = true,
-		textCoords = vector3(475.3978, -989.9868, 26.34802)
-	},
-
-	-- gabz_mrpd	ARMOURY 1
-	{
-		objHash = -692649124,
+		objHash = -340230128,
 		objHeading = 90.0,
-		objCoords = vector3(479.7507, -999.629, 30.78927),
+		objCoords = vector3(464.3614, -984.678, 43.83444),
 		authorizedJobs = { 'police' },
 		locked = true,
 		maxDistance = 2.0,
 		fixText = true
 	},
 
-	-- gabz_mrpd	ARMOURY 2
+	-- MRPD MUGSHOT ROOM
 	{
-		objHash = -692649124,
-		objHeading = 181.28,
-		objCoords = vector3(487.4378, -1000.189, 30.78697),
+		objHash = -131296141,
+		objHeading = 179.27,
+		objCoords = vector3(442.6625, -988.2413, 26.81977),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD STORAGE
+	{
+		objHash = -131296141,
+		objHeading = 270.0,
+		objCoords = vector3(471.3154, -986.1091, 25.05795),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD SERVER
+	{
+		objHash = -131296141,
+		objHeading = 180.0,
+		objCoords = vector3(467.5936, -977.9933, 25.05795),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD LABORATORY
+	{
+		objHash = -131296141,
+		objHeading = 90.0,
+		objCoords = vector3(463.6146, -980.5814, 25.05795),
 		authorizedJobs = { 'police' },
 		locked = true,
 		maxDistance = 2.0,
 	},
 
-	-- gabz_mrpd	SHOOTING RANGE
+	-- MRPD CELL ACCESS
 	{
+		objHash = 631614199,
+		objHeading = 0.0,
+		objCoords = vector3(464.5702, -992.6641, 25.06443),
 		authorizedJobs = { 'police' },
 		locked = true,
 		maxDistance = 2.0,
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
+	},
+
+	-- MRPD NORMAL CELL 1
+	{
+		objHash = 631614199,
+		objHeading = 270.0,
+		objCoords = vector3(461.8065, -994.4086, 25.06443),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true,
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
+	},
+
+	-- MRPD NORMAL  CELL 2
+	{
+		objHash = 631614199,
+		objHeading = 90.0,
+		objCoords = vector3(461.8065, -997.6584, 25.06443),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
+	},
+
+	-- MRPD NORMAL  CELL 3
+	{
+		objHash = 631614199,
+		objHeading = 90.0,
+		objCoords = vector3(461.8065, -1001.302, 25.06443),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
+	},
+
+	-- MRPD CELL 1
+	{
+		objHash = -1033001619,
+		objHeading = 0.0,
+		objCoords = vector3(467.1922, -996.4594, 25.00599),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD CELL 2
+	{
+		objHash = -1033001619,
+		objHeading = 0.0,
+		objCoords = vector3(471.4755, -996.4594, 25.00599),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD CELL 3
+	{
+		objHash = -1033001619,
+		objHeading = 0.0,
+		objCoords = vector3(475.7543, -996.4594, 25.00599),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD CELL 4
+	{
+		objHash = -1033001619,
+		objHeading = 0.0,
+		objCoords = vector3(480.0301, -996.4594, 25.00599),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD INTERVIEW 1
+	{
+		objHash = -1033001619,
+		objHeading = 180.0,
+		objCoords = vector3(468.4872, -1003.548, 25.01314),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+	},
+
+	-- MRPD INTERVIEW 1.5
+	{
+		objHash = -1033001619,
+		objHeading = 0.0,
+		objCoords = vector3(471.4747, -1003.538, 25.01223),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD INTERVIEW 2
+	{
+		objHash = -1033001619,
+		objHeading = 180.0,
+		objCoords = vector3(477.0497, -1003.553, 25.01203),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+	},
+
+	-- MRPD INTERVIEW 2.5
+	{
+		objHash = -1033001619,
+		objHeading = 0.0,
+		objCoords = vector3(480.0301, -1003.538, 25.00599),
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.0,
+		fixText = true
+	},
+
+	-- MRPD LOBBY DOUBLE DOORS
+	{
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.5,
 		doors = {
-			{objHash = -692649124, objHeading = 0.0, objCoords = vector3(485.6133, -1002.902, 30.78697)},
-			{objHash = -692649124, objHeading = 180.0, objCoords = vector3(488.0184, -1002.902, 30.78697)}
+			{objHash = 185711165, objHeading = 180.0, objCoords = vector3(443.4078, -989.4454, 30.83931)},
+			{objHash = 185711165, objHeading = 0.0, objCoords = vector3(446.008, -989.4454, 30.83931)}
+		}
+	},
+
+	-- MRPD DOUBLE DOORS TO PARKING
+	{
+		authorizedJobs = { 'police' },
+		locked = true,
+		maxDistance = 2.5,
+		doors = {
+			{objHash = -1033001619, objHeading = 180.0, objCoords = vector3(447.2184, -999.0023, 30.78942)},
+			{objHash = -1033001619, objHeading = 0.0, objCoords = vector3(444.6212, -999.001, 30.78866)}
+		}
+	},
+
+	-- DELETE MRPD DOUBLE DOORS TO PARKING
+	{
+		authorizedJobs = { 'police' },
+		delete = true,
+		maxDistance = 2.5,
+		doors = {
+			{objHash = -2023754432, objHeading = 0.0, objCoords = vector3(444.6294, -997.0447, 30.84352)},
+			{objHash = -2023754432, objHeading = 180.0, objCoords = vector3(447.2303, -997.0447, 30.84352)}
 		},
 		
 	},
