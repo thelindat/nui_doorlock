@@ -89,8 +89,8 @@ end, true)
 
 RegisterServerEvent('nui_doorlock:newDoorCreate')
 AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, doubleDoor)
-	if not IsPlayerAceAllowed(source, 'command.newdoor') then print('You do not have permission to use this command') return end
 	xPlayer = ESX.GetPlayerFromId(source)
+	if not IsPlayerAceAllowed(source, 'command.newdoor') then print(xPlayer.getName().. 'attempted to create a new door but does not have permission') return end
 	doorLocked = tostring(doorLocked)
 	slides = tostring(slides)
 	garage = tostring(garage)
