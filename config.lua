@@ -356,3 +356,7 @@ Config.DoorList = {
 	},
 
 }
+
+for k, v in pairs(CustomDoors) do
+	table.insert(Config.DoorList, v)
+end
