@@ -128,9 +128,9 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	}]]
 	end
 	local path = GetResourcePath(GetCurrentResourceName())
-	path = path:gsub('//', '/')..'/config.lua'
+	path = path:gsub('//', '/')..'/customdoors.lua'
 
-	local config = LoadResourceFile(GetCurrentResourceName(), 'config.lua')
+	local config = LoadResourceFile(GetCurrentResourceName(), 'customdoors.lua')
 	config = tostring(config:sub(1, -2))
 
 	file = io.open(path, 'w+')
