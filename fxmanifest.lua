@@ -1,17 +1,19 @@
 fx_version 'cerulean'
 games { 'gta5' }
 
-version '1.6.3'
+version '1.6.4'
 description 'https://github.com/thelindat/nui_doorlock'
 
 server_scripts {
 	'@es_extended/locale.lua',
+	'customdoors.lua',
 	'config.lua',
 	'server/main.lua'
 }
 
 client_scripts {
 	'@es_extended/locale.lua',
+	'customdoors.lua',
 	'config.lua',
 	'client/main.lua'
 }
