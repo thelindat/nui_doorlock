@@ -333,6 +333,8 @@ Config.DoorList = {
 
 }
 
-for k, v in pairs(CustomDoors) do
-	table.insert(Config.DoorList, v)
+if CustomDoors[1] then
+	for k, v in pairs(CustomDoors) do
+		table.insert(Config.DoorList, v)
+	end
 end
