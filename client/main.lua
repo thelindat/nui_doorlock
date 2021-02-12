@@ -372,10 +372,10 @@ RegisterKeyMapping('doorlock', 'Interact with a door lock', 'keyboard', 'e')
 RegisterNetEvent('nui_doorlock:newDoorSetup')
 AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 	if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
-	local doorType = args[1]
+	local doorType = tostring(args[1])
 	local doorLocked = not not args[2]
 	local validTypes = {['door']=true, ['sliding']=true, ['garage']=true, ['double']=true, ['doublesliding']=true}
-	if not validTypes[doorType] then print('Must enter a valid doortype') return end
+	if not validTypes[doorType] then print(doorType.. 'is not a valid doortype') return end
 	if doorLocked ~= false and doorLocked ~= true then print('Second argument must be true or false') return end
 	if args[7] then print('You can only set four authorised jobs - if you want more, add them to the config later') return end
 	if doorType == 'door' or doorType == 'sliding' or doorType == 'garage' then
