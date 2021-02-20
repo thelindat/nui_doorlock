@@ -137,3 +137,41 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	file:write(config..'	-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n'..doorConfig..',\n\n}')
 	file:close()
 end)
+
+
+-- Test command that causes all doors to change state
+--[[RegisterCommand('testdoors', function(playerId, args, rawCommand)
+	for k, v in pairs(doorInfo) do
+		if v == true then lock = false else lock = true end
+		doorInfo[k] = lock
+		TriggerClientEvent('nui_doorlock:setState', -1, k, lock)
+	end
+end, true)
+--]]
+
+
+-- VERSION CHECK
+CreateThread(function()
+    local resourceName = GetCurrentResourceName()
+    local currentVersion, latestVersion = GetResourceMetadata(resourceName, 'version')
+    local outdated = '^6[%s]^3 Version ^2%s^3 is available! You are using version ^1%s^7'
+    Citizen.Wait(2000)
+    while Config.CheckVersion do
+        Citizen.Wait(0)
+        PerformHttpRequest(GetResourceMetadata(resourceName, 'versioncheck'), function (errorCode, resultData, resultHeaders)
+            if errorCode ~= 200 then print("Returned error code:" .. tostring(errorCode)) else
+                local data, version = tostring(resultData)
+                for line in data:gmatch("([^\n]*)\n?") do
+                    if line:find('^version') then version = line:sub(10, (line:len(line) - 1)) break end
+                end         
+                latestVersion = version
+            end
+        end)
+        if latestVersion then 
+            if currentVersion ~= latestVersion then
+                print(outdated:format(resourceName, latestVersion, currentVersion))
+            end
+            Citizen.Wait(60000*Config.CheckVersionDelay)
+        end
+    end
+end)
