@@ -162,7 +162,7 @@ end
 function debug(doorID, data)
 	if GetDistanceBetweenCoords(playerCoords, data.textCoords) < 3 then
 		if data.doors then door = '{'.. data.doors[1].object..' '.. data.doors[2].object.. '}' else door = data.object end
-		return print(   ('[%s] locked: %s  object: %s'):format(index, data.locked, door)   )
+		return print(   ('[%s] locked: %s  object: %s'):format(doorID, data.locked, door)   )
 	end
 end
 
