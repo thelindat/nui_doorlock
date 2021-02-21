@@ -358,12 +358,3 @@ Config.DoorList = {
 	},
 
 }
-
-Citizen.CreateThread(function()
-	Citizen.Wait(5)
-	if CustomDoors[1] == nil then --[[no doors]] else
-		for k, v in pairs(CustomDoors) do
-			table.insert(Config.DoorList, v)
-		end
-	end
-end)
