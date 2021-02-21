@@ -1,5 +1,6 @@
 ESX = nil
 local closestDoor, closestV, closestDistance, playerPed, playerCoords, doorCount, retrievedData
+local isDead, isCuffed = false, false
 local playerNotActive = true
 
 Citizen.CreateThread(function()
@@ -123,6 +124,24 @@ end
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	ESX.PlayerData.job = job
+end)
+
+AddEventHandler('esx:onPlayerDeath', function(data)
+	isDead = true
+end)
+
+AddEventHandler('esx:onPlayerSpawn', function(spawn)
+	isDead = false
+end)
+
+RegisterNetEvent('esx_policejob:handcuff')
+AddEventHandler('esx_policejob:handcuff', function()
+	isCuffed = not isCuffed
+end)
+
+RegisterNetEvent('esx_policejob:unrestrain')
+AddEventHandler('esx_policejob:unrestrain', function()
+	isCuffed = false
 end)
 
 local last_x, last_y, lasttext, isDrawing
@@ -341,7 +360,7 @@ function IsAuthorized(doorID)
 end
 
 RegisterCommand('doorlock', function()
-	if closestDoor and IsAuthorized(closestV) then
+	if not isDead and not isCuffed and closestDoor and IsAuthorized(closestV) then
 		if IsControlPressed(0, 86) or IsControlReleased(0, 86) then key = 'e' end
 		local veh = GetVehiclePedIsIn(playerPed)
 		dooranim(closestV.object, closestV.locked)
