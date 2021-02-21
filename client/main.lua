@@ -352,7 +352,9 @@ function IsAuthorized(doorID)
 
 	for _,job in pairs(doorID.authorizedJobs) do
 		if job == ESX.PlayerData.job.name then
-			return true
+			if not doorID.minimumRank or doorID.minimumRank[ESX.PlayerData.job.name] <= ESX.PlayerData.job.grade then
+				return true
+			end
 		end
 	end
 
