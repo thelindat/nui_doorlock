@@ -387,19 +387,18 @@ RegisterCommand('doorlock', function()
 end)
 RegisterKeyMapping('doorlock', 'Interact with a door lock', 'keyboard', 'e')
 
-function lockpick()
+RegisterNetEvent('esx_lockpick:onUse') -- Modify for whichever lockpick you're using
+AddEventHandler('esx_lockpick:onUse', function()
 	if not isDead and not isCuffed and closestDoor and closestV.lockpick then
+		TaskTurnPedToFaceCoord(playerPed, closestV.textCoords, 0)
+		Citizen.Wait(300)
+		local count = 0
+		while GetIsTaskActive(playerPed, 225) do Citizen.Wait(10) count = count + 1 if count == 150 then break end end
+		Citizen.Wait(1800)
 		closestV.locked = not closestV.locked
 		TriggerServerEvent('nui_doorlock:updateState', closestDoor, closestV.locked, nil) -- Broadcast new state of the door to everyone
 	end
-end
-
-RegisterNetEvent('esx_lockpick:onUse')
-AddEventHandler('esx_lockpick:onUse', function()
-	lockpick()
 end)
-
-
 
 RegisterNetEvent('nui_doorlock:newDoorSetup')
 AddEventHandler('nui_doorlock:newDoorSetup', function(args)
