@@ -97,7 +97,7 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	local doorConfig
 	if not doubleDoor then
 		doorConfig = [[
-	{
+	table.insert(Config.DoorList, {
 		objHash = ]]..model..[[,
 		objHeading = ]]..heading..[[,
 		objCoords = ]]..coords..[[,
@@ -110,10 +110,10 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 		audioLock = nil,
 		audioUnlock = nil,
 		audioRemote = false
-	}]]
+	})]]
 	else
 		doorConfig = [[
-	{
+	table.insert(Config.DoorList, {
 		doors = {
 			{objHash = ]]..model[1]..[[, objHeading = ]]..heading[1]..[[, objCoords = ]]..coords[1]..[[},
 			{objHash = ]]..model[2]..[[, objHeading = ]]..heading[2]..[[, objCoords = ]]..coords[2]..[[}
@@ -125,16 +125,13 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 		audioLock = nil,
 		audioUnlock = nil,
 		audioRemote = false
-	}]]
+	})]]
 	end
 	local path = GetResourcePath(GetCurrentResourceName())
-	path = path:gsub('//', '/')..'/customdoors.lua'
+	path = path:gsub('//', '/')..'/config.lua'
 
-	local config = LoadResourceFile(GetCurrentResourceName(), 'customdoors.lua')
-	config = tostring(config:sub(1, -2))
-
-	file = io.open(path, 'w+')
-	file:write(config..'	-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n'..doorConfig..',\n\n}')
+	file = io.open(path, 'a+')
+	file:write('\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n'..doorConfig)
 	file:close()
 end)
 
