@@ -391,7 +391,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			end
 			if IsControlJustPressed(0, 24) then break end
 		end
-		if model == 0 then print('Did not receive a model hash') return end
+		if model == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
 		local jobs = tostring("'"..args[3].."'")
 		if args[4] then jobs = jobs..', '..tostring("'"..args[4].."'") end
 		if args[5] then jobs = jobs..', '..tostring("'"..args[5].."'") end
@@ -424,7 +424,8 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			end
 			if IsControlJustPressed(0, 24) then break end
 		end
-		if model == 0 then print('Did not receive a model hash') return end
+		if model[1] == 0 or model[2] == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
+		if entity[1] == entity[2] then print('Can not add double door if entities are the same') return end
 		local jobs = tostring("'"..args[3].."'")
 		if args[4] then jobs = jobs..', '..tostring("'"..args[4].."'") end
 		if args[5] then jobs = jobs..', '..tostring("'"..args[5].."'") end
