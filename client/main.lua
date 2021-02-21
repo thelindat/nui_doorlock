@@ -126,7 +126,7 @@ AddEventHandler('esx:setJob', function(job)
 end)
 
 local last_x, last_y, lasttext, isDrawing
-function DrawTextNUI(coords, text)
+function Draw3dNUI(coords, text)
 	local paused = false
 	if IsPauseMenuActive() then paused = true end
 	local onScreen,_x,_y = GetScreenCoordFromWorldCoord(coords.x,coords.y,coords.z)
@@ -298,11 +298,11 @@ Citizen.CreateThread(function()
 					local doorState = DoorSystemGetDoorState(closestV.doorHash)
 					local heading = GetEntityHeading(closestV.object)
 					if closestV.locked and round(heading, 0) ~= round(closestV.objHeading, 0) then
-						DrawTextNUI(closestV.textCoords, 'Locking')
+						Draw3dNUI(closestV.textCoords, 'Locking')
 					elseif not closestV.locked then
-						if Config.ShowUnlockedText then DrawTextNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
+						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
 					else
-						DrawTextNUI(closestV.textCoords, 'Locked')
+						Draw3dNUI(closestV.textCoords, 'Locked')
 					end
 				else
 					local door = {}
@@ -310,9 +310,9 @@ Citizen.CreateThread(function()
 						local doorState = DoorSystemGetDoorState(v2.doorHash)
 						if doorState == 1 and closestV.locked then door[k2] = true else door[k2] = false end
 					end
-					if door[1] and door[1] == door[2] then DrawTextNUI(closestV.textCoords, 'Locked')
-					elseif not closestV.locked then if Config.ShowUnlockedText then DrawTextNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
-					else DrawTextNUI(closestV.textCoords, 'Locking') end
+					if door[1] and door[1] == door[2] then Draw3dNUI(closestV.textCoords, 'Locked')
+					elseif not closestV.locked then if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
+					else Draw3dNUI(closestV.textCoords, 'Locking') end
 				end
 			else
 				if closestDistance > closestV.maxDistance and isDrawing then
