@@ -30,6 +30,9 @@ The state of doors is only checked while in range, and the number of checks per 
 States.json will auto-generate if the file does not exist.  
 When adding new doors to the config, you should delete states.json so a new one can be made.
 
+* Config for both Community MRPD and gabz_MRPD
+Just choose which config file to use and rename if using gabz.
+
 <hr>
 <p align="center">https://streamable.com/oheu5e  
 <img src="https://i.imgur.com/Sug2Nj5.jpg"/></p>
