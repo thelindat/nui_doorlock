@@ -59,7 +59,7 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src)
 		return
 	end
 
-	if not IsAuthorized(xPlayer.job.name, Config.DoorList[doorID]) then
+	if not Config.DoorList[doorID].lockpick and not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID]) then
 		print(('nui_doorlock: %s was not authorized to open a locked door!'):format(xPlayer.identifier))
 		return
 	end
@@ -73,9 +73,9 @@ ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
 	cb(doorInfo)
 end)
 
-function IsAuthorized(jobName, doorID)
-	for _,job in pairs(doorID.authorizedJobs) do
-		if job == jobName then
+function IsAuthorized(jobName, grade, doorID)
+	for job,rank in pairs(doorID.authorizedJobs) do
+		if job == jobName and rank <= grade then
 			return true
 		end
 	end
