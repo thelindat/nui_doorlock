@@ -422,12 +422,12 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			if IsControlJustPressed(0, 24) then break end
 		end
 		if model == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
-		local jobs = tostring("'"..args[3].."'")
-		if args[4] then jobs = jobs..', '..tostring("'"..args[4].."'") end
-		if args[5] then jobs = jobs..', '..tostring("'"..args[5].."'") end
-		if args[6] then jobs = jobs..', '..tostring("'"..args[6].."'") end
+		local jobs = tostring("['"..args[3].."']=0")
+		if args[4] then jobs = jobs..', '..tostring("['"..args[4].."']=0") end
+		if args[5] then jobs = jobs..', '..tostring("['"..args[5].."']=0") end
+		if args[6] then jobs = jobs..', '..tostring("['"..args[6].."']=0") end
 		local maxDistance, slides, garage = 2.0, false, false
-		if doorType == 'slides' then maxDistance, slides = 6.0, true
+		if doorType == 'sliding' then maxDistance, slides = 6.0, true
 		elseif doorType == 'garage' then maxDistance, slides, garage = 6.0, true, true end
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, false)
 		print('Successfully sent door data to the server')
@@ -456,12 +456,12 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		end
 		if model[1] == 0 or model[2] == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
 		if entity[1] == entity[2] then print('Can not add double door if entities are the same') return end
-		local jobs = tostring("'"..args[3].."'")
-		if args[4] then jobs = jobs..', '..tostring("'"..args[4].."'") end
-		if args[5] then jobs = jobs..', '..tostring("'"..args[5].."'") end
-		if args[6] then jobs = jobs..', '..tostring("'"..args[6].."'") end
+		local jobs = tostring("['"..args[3].."']=0")
+		if args[4] then jobs = jobs..', '..tostring("['"..args[4].."']=0") end
+		if args[5] then jobs = jobs..', '..tostring("['"..args[5].."']=0") end
+		if args[6] then jobs = jobs..', '..tostring("['"..args[6].."']=0") end
 		local maxDistance, slides, garage = 2.5, false, false
-		if doorType == 'slides' then slides = true end
+		if doorType == 'sliding' then slides = true end
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, true)
 		print('Successfully sent door data to the server')
 	end
