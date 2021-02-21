@@ -349,15 +349,14 @@ function IsAuthorized(doorID)
 	if ESX.PlayerData.job == nil then
 		return false
 	end
-	local useDoor = false
-	for _,job in pairs(doorID.authorizedJobs) do
-		if job == ESX.PlayerData.job.name then
-			if not doorID.minimumRank or doorID.minimumRank[ESX.PlayerData.job.name] <= ESX.PlayerData.job.grade then
-				useDoor = true
-			end
+	for job,rank in pairs(doorID.authorizedJobs) do
+		print(job)
+		print(rank)
+		if job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade then
+			return true
 		end
 	end
-	return useDoor
+	return false
 end
 
 RegisterCommand('doorlock', function()
