@@ -349,16 +349,15 @@ function IsAuthorized(doorID)
 	if ESX.PlayerData.job == nil then
 		return false
 	end
-
+	local useDoor = false
 	for _,job in pairs(doorID.authorizedJobs) do
 		if job == ESX.PlayerData.job.name then
 			if not doorID.minimumRank or doorID.minimumRank[ESX.PlayerData.job.name] <= ESX.PlayerData.job.grade then
-				return true
+				useDoor = true
 			end
 		end
 	end
-
-	return false
+	return useDoor
 end
 
 RegisterCommand('doorlock', function()
@@ -387,6 +386,18 @@ RegisterCommand('doorlock', function()
 	end
 end)
 RegisterKeyMapping('doorlock', 'Interact with a door lock', 'keyboard', 'e')
+
+function lockpick()
+	if not isDead and not isCuffed and closestDoor and closestV.lockpick then
+		closestV.locked = not closestV.locked
+		TriggerServerEvent('nui_doorlock:updateState', closestDoor, closestV.locked, nil) -- Broadcast new state of the door to everyone
+	end
+end
+
+RegisterNetEvent('esx_lockpick:onUse')
+AddEventHandler('esx_lockpick:onUse', function()
+	lockpick()
+end)
 
 
 
