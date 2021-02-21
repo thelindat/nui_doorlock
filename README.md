@@ -8,7 +8,8 @@ A fork of esx_doorlock, featuring improved performance and improved functionalit
 
 * Easily add and configure new doors!  
 Use the /newdoor command to automatically create a new entry on the DoorList.  
-https://streamable.com/e290wk
+https://streamable.com/e290wk  
+Try using `con_miniconChannels script:nui_doorlock` for errors to popup
 
 * No more `SetEntityHeading` and `FreezeEntityPosition` natives.  
  Doors in range are assigned a doorHash, used with `AddDoorToSystem`.  
