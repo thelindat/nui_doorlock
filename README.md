@@ -33,8 +33,8 @@ When adding new doors to the config, you should delete states.json so a new one 
 * Config for both Community MRPD and gabz_MRPD  
 Just choose which config file to use and rename if using gabz.
 
-* Set door access permissions
-Set multiple jobs to be authorised to use a door `authorizedJobs = { 'police', 'offpolice' }`
+* Set door access permissions  
+Set multiple jobs to be authorised to use a door `authorizedJobs = { 'police', 'offpolice' }`  
 Set the minimum rank for using a door `minimumRank = {['police']=1, ['offpolice']=1}`
 
 <hr>
