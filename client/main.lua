@@ -350,8 +350,6 @@ function IsAuthorized(doorID)
 		return false
 	end
 	for job,rank in pairs(doorID.authorizedJobs) do
-		print(job)
-		print(rank)
 		if job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade then
 			return true
 		end
