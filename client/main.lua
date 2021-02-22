@@ -428,6 +428,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		if args[5] then jobs = jobs..', '..tostring("['"..args[5].."']=0") end
 		if args[6] then jobs = jobs..', '..tostring("['"..args[6].."']=0") end
 		local maxDistance, slides, garage = 2.0, false, false
+		if slides then maxDistance = 5.0 end
 		if doorType == 'sliding' then maxDistance, slides = 6.0, true
 		elseif doorType == 'garage' then maxDistance, slides, garage = 6.0, true, true end
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, false)
@@ -462,6 +463,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		if args[5] then jobs = jobs..', '..tostring("['"..args[5].."']=0") end
 		if args[6] then jobs = jobs..', '..tostring("['"..args[6].."']=0") end
 		local maxDistance, slides, garage = 2.5, false, false
+		if slides then maxDistance = 5.0 end
 		if doorType == 'sliding' or doorType == 'doublesliding' then slides = true end
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, true)
 		print('Successfully sent door data to the server')
