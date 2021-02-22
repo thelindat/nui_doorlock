@@ -21,7 +21,7 @@ Citizen.CreateThread(function()
 		retrievedData = true
 	end)
 	while not retrievedData do Citizen.Wait(0) end
-	while IsPedStill(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId()) do Citizen.Wait(0) end
+	--while IsPedStill(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId()) do Citizen.Wait(0) end
 	updateDoors()
 	playerNotActive = nil
 	retrievedData = nil
@@ -321,8 +321,7 @@ Citizen.CreateThread(function()
 			if closestDistance < closestV.maxDistance then
 				if not closestV.doors then
 					local doorState = DoorSystemGetDoorState(closestV.doorHash)
-					local heading = GetEntityHeading(closestV.object)
-					if closestV.locked and round(heading, 0) ~= round(closestV.objHeading, 0) then
+					if closestV.locked and doorState ~= 1 then
 						Draw3dNUI(closestV.textCoords, 'Locking')
 					elseif not closestV.locked then
 						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
