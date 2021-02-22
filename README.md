@@ -33,8 +33,8 @@ When adding new doors to the config, you should delete states.json so a new one 
 Just choose which config file to use and rename if using gabz.
 
 * Set door access permissions  
-Set multiple jobs to be authorised to use a door `authorizedJobs = { 'police', 'offpolice' }`  
-Set the minimum rank for using a door `minimumRank = {['police']=1, ['offpolice']=1}`
+Set multiple jobs to be authorised to use a door, with the minimum required grade `authorizedJobs = {['police']=0, ['offpolice']=0}`  
+Allow the door to be lockpicked with `lockpick = true`
 
 <hr>
 <p align="center">https://streamable.com/oheu5e  
