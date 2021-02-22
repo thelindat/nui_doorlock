@@ -290,12 +290,14 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if doorCount then
-			local distance
-			for k,v in ipairs(Config.DoorList) do
-				if v.setText and (v.object or (v.doors and v.doors[1].object)) then
-					distance = #(vector2(v.textCoords.x, v.textCoords.y) - vector2(playerCoords.x, playerCoords.y))
-					if v.setText and distance < v.maxDistance then
-						closestDoor, closestV, closestDistance = k, v, distance
+			if closestDistance then doorSleep = 500 else
+				local distance
+				for k,v in pairs(Config.DoorList) do
+					if v.setText and v.textCoords then
+						distance = #(vector2(v.textCoords.x, v.textCoords.y) - vector2(playerCoords.x, playerCoords.y))
+						if v.setText and distance < v.maxDistance then
+							closestDoor, closestV, closestDistance = k, v, distance
+						end
 					end
 				end
 			end
@@ -312,7 +314,6 @@ Citizen.CreateThread(function()
 		if doorCount ~= nil and doorCount ~= 0 and closestDistance and closestV.setText then
 			closestDistance = #(closestV.textCoords - playerCoords)
 			if closestDistance < closestV.maxDistance then
-				doorSleep = 5
 				if not closestV.doors then
 					local doorState = DoorSystemGetDoorState(closestV.doorHash)
 					local heading = GetEntityHeading(closestV.object)
@@ -341,7 +342,7 @@ Citizen.CreateThread(function()
 			end
 		end
 		
-		if doorCount == 0 then doorSleep = 1000 Citizen.Wait(900) end
+		if doorCount == 0 then doorSleep = 1000 Citizen.Wait(1000) end
 	end
 end)
 
