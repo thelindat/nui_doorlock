@@ -91,7 +91,7 @@ AddEventHandler('nui_doorlock:setState', function(doorID, locked, src)
 					playSound(Config.DoorList[doorID], src)
 					return -- End the loop
 				else
-					if round(Config.DoorList[doorID].currentHeading, 0) == round(Config.DoorList[doorID].objHeading, 0) then
+					if round(Config.DoorList [doorID].currentHeading, 0) == round(Config.DoorList[doorID].objHeading, 0) then
 						DoorSystemSetDoorState(Config.DoorList[doorID].doorHash, 4, false, false) -- Force to close
 					end
 				end
@@ -186,10 +186,20 @@ function debug(doorID, data)
 	end
 end
 
+function setTextCoords(data)
+	local minDimension, maxDimension = GetModelDimensions(data.objHash)
+	if data.fixText then dimensions = minDimension - maxDimension else dimensions = maxDimension - minDimension end
+	local dx, dy = tonumber(string.sub(dimensions.x, 1, 6)), tonumber(string.sub(dimensions.y, 1, 6))
+	local h = tonumber(string.sub(data.objHeading, 1, 1))
+	if h == 9 or h == 8 or h == 2 then dx, dy = dy, dx end
+	local maths = vector3(dx/2, dy/2, 0)
+	return GetEntityCoords(data.object) - maths
+end
+
 function updateDoors(specificDoor)
 	playerCoords = GetEntityCoords(PlayerPedId())
 	for doorID, data in ipairs(Config.DoorList) do
-		if not specificDoor or doorID == specificDoor then
+		if (not specificDoor or doorID == specificDoor) then
 			if data.doors then
 				for k,v in ipairs(data.doors) do
 					if #(vector2(playerCoords.x, playerCoords.y) - vector2(v.objCoords.x, v.objCoords.y)) < 100 then
@@ -201,11 +211,13 @@ function updateDoors(specificDoor)
 						end
 						if v.object then
 							v.doorHash = 'doorlock_'..doorID..'-'..k
-							AddDoorToSystem(v.doorHash, v.objHash, v.objCoords, false, false, false)
-							if data.locked then
-								--[[DoorSystemSetDoorState(v.doorHash, 4, false, false)]] DoorSystemSetDoorState(v.doorHash, 1, false, false)
-							else
-								DoorSystemSetDoorState(v.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(v.object, false) end
+							if not IsDoorRegisteredWithSystem(v.doorHash) then
+								AddDoorToSystem(v.doorHash, v.objHash, v.objCoords, false, false, false)
+								if data.locked then
+									--[[DoorSystemSetDoorState(v.doorHash, 4, false, false)]] DoorSystemSetDoorState(v.doorHash, 1, false, false)
+								else
+									DoorSystemSetDoorState(v.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(v.object, false) end
+								end
 							end
 						end
 					elseif v.object then RemoveDoorFromSystem(v.doorHash) end
@@ -222,11 +234,13 @@ function updateDoors(specificDoor)
 					end
 					if data.object then
 						data.doorHash = 'doorlock_'..doorID
-						AddDoorToSystem(data.doorHash, data.objHash, data.objCoords, false, false, false) 
-						if data.locked then
-							--[[DoorSystemSetDoorState(data.doorHash, 4, false, false)]] DoorSystemSetDoorState(data.doorHash, 1, false, false)
-						else
-							DoorSystemSetDoorState(data.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(data.object, false) end
+						if not IsDoorRegisteredWithSystem(data.doorHash) then
+							AddDoorToSystem(data.doorHash, data.objHash, data.objCoords, false, false, false) 
+							if data.locked then
+								--[[DoorSystemSetDoorState(data.doorHash, 4, false, false)]] DoorSystemSetDoorState(data.doorHash, 1, false, false)
+							else
+								DoorSystemSetDoorState(data.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(data.object, false) end
+							end
 						end
 					end
 				elseif data.object then RemoveDoorFromSystem(data.doorHash) end
@@ -249,13 +263,7 @@ function updateDoors(specificDoor)
 				end
 			elseif not data.setText and not data.doors and DoesEntityExist(data.object) then
 				if not data.garage then
-					local minDimension, maxDimension = GetModelDimensions(data.objHash)
-					if data.fixText then dimensions = minDimension - maxDimension else dimensions = maxDimension - minDimension end
-					local dx, dy = tonumber(string.sub(dimensions.x, 1, 6)), tonumber(string.sub(dimensions.y, 1, 6))
-					local h = tonumber(string.sub(data.objHeading, 1, 1))
-					if h == 9 or h == 8 or h == 2 then dx, dy = dy, dx end
-					local maths = vector3(dx/2, dy/2, 0)
-					data.textCoords = GetEntityCoords(data.object) - maths
+					data.textCoords = setTextCoords(data)
 					data.setText = true
 				else
 					data.textCoords = GetEntityCoords(data.object)
@@ -436,8 +444,8 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		jobs[4] = args[6]
 		local maxDistance, slides, garage = 2.0, false, false
 		if doorType == 'sliding' then slides = true
-		elseif doorType == 'garage' then maxDistance, slides, garage = 6.0, true, true end
-		if slides then maxDistance = 5.0 end
+		elseif doorType == 'garage' then slides, garage = 6.0, true, true end
+		if slides then maxDistance = 6.0 end
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, false)
 		print('Successfully sent door data to the server')
 	elseif doorType == 'double' or doorType == 'doublesliding' then
@@ -471,8 +479,8 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		jobs[3] = args[5]
 		jobs[4] = args[6]
 		local maxDistance, slides, garage = 2.5, false, false
-		if slides then maxDistance = 5.0 end
 		if doorType == 'sliding' or doorType == 'doublesliding' then slides = true end
+		if slides then maxDistance = 6.0 end
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, true)
 		print('Successfully sent door data to the server')
 	end
