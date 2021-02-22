@@ -32,6 +32,7 @@ RegisterNetEvent('nui_doorlock:setState')
 AddEventHandler('nui_doorlock:setState', function(doorID, locked, src)
 	CreateThread(function()
 		Config.DoorList[doorID].locked = locked
+		updateDoors(doorID)
 		while true do
 			Citizen.Wait(0)
 			if Config.DoorList[doorID].doors then
@@ -42,11 +43,11 @@ AddEventHandler('nui_doorlock:setState', function(doorID, locked, src)
 					if Config.DoorList[doorID].slides then
 						if Config.DoorList[doorID].locked then
 							DoorSystemSetDoorState(v.doorHash, 1, false, false) -- Set to locked
-							DoorSystemSetAutomaticDistance(v.doorHash, 0, false, false)
+							DoorSystemSetAutomaticDistance(v.doorHash, 0.0, false, false)
 							if k == 2 then playSound(Config.DoorList[doorID], src) return end -- End the loop
 						else
 							DoorSystemSetDoorState(v.doorHash, 0, false, false) -- Set to unlocked
-							DoorSystemSetAutomaticDistance(v.doorHash, 20, false, false)
+							DoorSystemSetAutomaticDistance(v.doorHash, 30.0, false, false)
 							if k == 2 then playSound(Config.DoorList[doorID], src) return end -- End the loop
 						end
 					elseif Config.DoorList[doorID].locked and (v.doorState == 4) then
@@ -70,12 +71,12 @@ AddEventHandler('nui_doorlock:setState', function(doorID, locked, src)
 				if Config.DoorList[doorID].slides then
 					if Config.DoorList[doorID].locked then
 						DoorSystemSetDoorState(Config.DoorList[doorID].doorHash, 1, false, false) -- Set to locked
-						DoorSystemSetAutomaticDistance(Config.DoorList[doorID].doorHash, 0, false, false)
+						DoorSystemSetAutomaticDistance(Config.DoorList[doorID].doorHash, 0.0, false, false)
 						playSound(Config.DoorList[doorID], src)
 						return -- End the loop
 					else
 						DoorSystemSetDoorState(Config.DoorList[doorID].doorHash, 0, false, false) -- Set to unlocked
-						DoorSystemSetAutomaticDistance(Config.DoorList[doorID].doorHash, 20, false, false)
+						DoorSystemSetAutomaticDistance(Config.DoorList[doorID].doorHash, 30.0, false, false)
 						playSound(Config.DoorList[doorID], src)
 						return -- End the loop
 					end
@@ -185,89 +186,91 @@ function debug(doorID, data)
 	end
 end
 
-function updateDoors()
+function updateDoors(specificDoor)
 	playerCoords = GetEntityCoords(PlayerPedId())
 	for doorID, data in ipairs(Config.DoorList) do
-		if data.doors then
-			for k,v in ipairs(data.doors) do
-				if #(vector2(playerCoords.x, playerCoords.y) - vector2(v.objCoords.x, v.objCoords.y)) < 100 then
-					v.object = GetClosestObjectOfType(v.objCoords, 1.0, v.objHash, false, false, false)
-					if data.delete then
-						SetEntityAsMissionEntity(v.object, 1, 1)
-						DeleteObject(v.object)
-						v.object = nil
+		if not specificDoor or doorID == specificDoor then
+			if data.doors then
+				for k,v in ipairs(data.doors) do
+					if #(vector2(playerCoords.x, playerCoords.y) - vector2(v.objCoords.x, v.objCoords.y)) < 100 then
+						v.object = GetClosestObjectOfType(v.objCoords, 1.0, v.objHash, false, false, false)
+						if data.delete then
+							SetEntityAsMissionEntity(v.object, 1, 1)
+							DeleteObject(v.object)
+							v.object = nil
+						end
+						if v.object then
+							v.doorHash = 'doorlock_'..doorID..'-'..k
+							AddDoorToSystem(v.doorHash, v.objHash, v.objCoords, false, false, false)
+							if data.locked then
+								--[[DoorSystemSetDoorState(v.doorHash, 4, false, false)]] DoorSystemSetDoorState(v.doorHash, 1, false, false)
+							else
+								DoorSystemSetDoorState(v.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(v.object, false) end
+							end
+						end
+					elseif v.object then RemoveDoorFromSystem(v.doorHash) end
+				end
+			elseif not data.doors then
+				if #(vector2(playerCoords.x, playerCoords.y) - vector2(data.objCoords.x, data.objCoords.y)) < 100 then
+					if data.slides then data.object = GetClosestObjectOfType(data.objCoords, 5.0, data.objHash, false, false, false) else
+						data.object = GetClosestObjectOfType(data.objCoords, 1.0, data.objHash, false, false, false)
 					end
-					if v.object then
-						v.doorHash = 'doorlock_'..doorID..'-'..k
-						AddDoorToSystem(v.doorHash, v.objHash, v.objCoords, false, false, false)
+					if data.delete then
+						SetEntityAsMissionEntity(data.object, 1, 1)
+						DeleteObject(data.object)
+						data.object = nil
+					end
+					if data.object then
+						data.doorHash = 'doorlock_'..doorID
+						AddDoorToSystem(data.doorHash, data.objHash, data.objCoords, false, false, false) 
 						if data.locked then
-							DoorSystemSetDoorState(v.doorHash, 4, false, false) DoorSystemSetDoorState(v.doorHash, 1, false, false)
-						 else
-							DoorSystemSetDoorState(v.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(v.object, false) end
+							--[[DoorSystemSetDoorState(data.doorHash, 4, false, false)]] DoorSystemSetDoorState(data.doorHash, 1, false, false)
+						else
+							DoorSystemSetDoorState(data.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(data.object, false) end
 						end
 					end
-				elseif v.object then RemoveDoorFromSystem(v.doorHash) end
+				elseif data.object then RemoveDoorFromSystem(data.doorHash) end
 			end
-		elseif not data.doors then
-			if #(vector2(playerCoords.x, playerCoords.y) - vector2(data.objCoords.x, data.objCoords.y)) < 100 then
-				if data.slides then data.object = GetClosestObjectOfType(data.objCoords, 5.0, data.objHash, false, false, false) else
-					data.object = GetClosestObjectOfType(data.objCoords, 1.0, data.objHash, false, false, false)
-				end
-				if data.delete then
-					SetEntityAsMissionEntity(data.object, 1, 1)
-					DeleteObject(data.object)
-					data.object = nil
-				end
-				if data.object then
-					data.doorHash = 'doorlock_'..doorID
-					AddDoorToSystem(data.doorHash, data.objHash, data.objCoords, false, false, false) 
-					if data.locked then
-						DoorSystemSetDoorState(data.doorHash, 4, false, false) DoorSystemSetDoorState(data.doorHash, 1, false, false)
-					 else
-						DoorSystemSetDoorState(data.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(data.object, false) end
+			-- set text coords
+			if not data.setText and data.doors then
+				for k,v in ipairs(data.doors) do
+					if k == 1 and DoesEntityExist(v.object) then
+						data.textCoords = v.objCoords
+					elseif k == 2 and DoesEntityExist(v.object) and data.textCoords then
+						local textDistance = data.textCoords - v.objCoords
+						data.textCoords = (data.textCoords - (textDistance / 2))
+						data.setText = true
+					end
+					if k == 2 and data.textCoords and data.slides then
+						if GetEntityHeightAboveGround(v.object) < 1 then
+							data.textCoords = vector3(data.textCoords.x, data.textCoords.y, data.textCoords.z+1.2)
+						end
 					end
 				end
-			elseif data.object then RemoveDoorFromSystem(data.doorHash) end
-		end
-		-- set text coords
-		if not data.setText and data.doors then
-			for k,v in ipairs(data.doors) do
-				if k == 1 and DoesEntityExist(v.object) then
-					data.textCoords = v.objCoords
-				elseif k == 2 and DoesEntityExist(v.object) and data.textCoords then
-					local textDistance = data.textCoords - v.objCoords
-					data.textCoords = (data.textCoords - (textDistance / 2))
+			elseif not data.setText and not data.doors and DoesEntityExist(data.object) then
+				if not data.garage then
+					local minDimension, maxDimension = GetModelDimensions(data.objHash)
+					if data.fixText then dimensions = minDimension - maxDimension else dimensions = maxDimension - minDimension end
+					local dx, dy = tonumber(string.sub(dimensions.x, 1, 6)), tonumber(string.sub(dimensions.y, 1, 6))
+					local h = tonumber(string.sub(data.objHeading, 1, 1))
+					if h == 9 or h == 8 or h == 2 then dx, dy = dy, dx end
+					local maths = vector3(dx/2, dy/2, 0)
+					data.textCoords = GetEntityCoords(data.object) - maths
+					data.setText = true
+				else
+					data.textCoords = GetEntityCoords(data.object)
 					data.setText = true
 				end
-				if k == 2 and data.textCoords and data.slides then
-					if GetEntityHeightAboveGround(v.object) < 1 then
-						data.textCoords = vector3(data.textCoords.x, data.textCoords.y, data.textCoords.z+1.2)
+				if data.slides then
+					if GetEntityHeightAboveGround(data.object) < 1 then
+						data.textCoords = vector3(data.textCoords.x, data.textCoords.y, data.textCoords.z+1.6)
 					end
-				end
-			end
-		elseif not data.setText and not data.doors and DoesEntityExist(data.object) then
-			if not data.garage then
-				local minDimension, maxDimension = GetModelDimensions(data.objHash)
-				if data.fixText then dimensions = minDimension - maxDimension else dimensions = maxDimension - minDimension end
-				local dx, dy = tonumber(string.sub(dimensions.x, 1, 6)), tonumber(string.sub(dimensions.y, 1, 6))
-				local h = tonumber(string.sub(data.objHeading, 1, 1))
-				if h == 9 or h == 8 or h == 2 then dx, dy = dy, dx end
-				local maths = vector3(dx/2, dy/2, 0)
-				data.textCoords = GetEntityCoords(data.object) - maths
-				data.setText = true
-			else
-				data.textCoords = GetEntityCoords(data.object)
-				data.setText = true
-			end
-			if data.slides then
-				if GetEntityHeightAboveGround(data.object) < 1 then
-					data.textCoords = vector3(data.textCoords.x, data.textCoords.y, data.textCoords.z+1.6)
 				end
 			end
 		end
 	end
 	doorCount = DoorSystemGetSize()
-	if doorCount ~= 0 then print(('%s doors are loaded'):format(doorCount)) end
+	--if doorCount ~= 0 then print(('%s doors are loaded'):format(doorCount)) end
 end
 
 Citizen.CreateThread(function()
