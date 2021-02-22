@@ -95,7 +95,12 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	slides = tostring(slides)
 	garage = tostring(garage)
 	local newDoor = {}
-	newDoor.authorizedJobs = { jobs }
+	local auth = tostring("['"..jobs[1].."']=0")
+	if jobs[2] then auth = auth..', '..tostring("['"..jobs[2].."']=0") end
+	if jobs[3] then auth = auth..', '..tostring("['"..jobs[3].."']=0") end
+	if jobs[4] then auth = auth..', '..tostring("['"..jobs[4].."']=0") end
+
+	newDoor.authorizedJobs = { auth }
 	newDoor.locked = doorLocked
 	newDoor.maxDistance = maxDistance
 	newDoor.slides = slides
@@ -120,7 +125,7 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	file:write('\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\ntable.insert(Config.DoorList, {')
 	for k,v in pairs(newDoor) do
 		if k == 'authorizedJobs' then
-			local str =  ('\n	%s = { %s },'):format(k, jobs)
+			local str =  ('\n	%s = { %s },'):format(k, auth)
 			file:write(str)
 		elseif k == 'doors' then
 			local doorStr = {}
@@ -137,6 +142,12 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	file:write('\n})')
 	file:close()
 	local doorID = #Config.DoorList + 1
+	
+	if jobs[4] then newDoor.authorizedJobs = { [jobs[1]] = 0, [jobs[2]] = 0, [jobs[3]] = 0, [jobs[4]] = 0 }
+	elseif jobs[3] then newDoor.authorizedJobs = { [jobs[1]] = 0, [jobs[2]] = 0, [jobs[3]] = 0 }
+	elseif jobs[2] then newDoor.authorizedJobs = { [jobs[1]] = 0, [jobs[2]] = 0 }
+	else newDoor.authorizedJobs = { [jobs[1]] = 0 } end
+
 	Config.DoorList[doorID] = newDoor
 	doorInfo[doorID] = doorLocked 
 	TriggerClientEvent('nui_doorlock:newDoorAdded', -1, newDoor, doorID, doorLocked)
