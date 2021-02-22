@@ -467,3 +467,10 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		print('Successfully sent door data to the server')
 	end
 end)
+
+RegisterNetEvent('nui_doorlock:newDoorAdded')
+AddEventHandler('nui_doorlock:newDoorAdded', function(newDoor, doorID, locked)
+	Config.DoorList[doorID] = newDoor
+	updateDoors()
+	TriggerEvent('nui_doorlock:setState', doorID, locked)
+end)
