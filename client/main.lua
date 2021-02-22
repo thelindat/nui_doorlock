@@ -362,6 +362,10 @@ function IsAuthorized(doorID)
 	return false
 end
 
+exports('updateDoors', updateDoors)
+-- Use this export if doors do not load after a teleport event (such as /tp, /setcoords, /jail, etc)
+-- `exports.nui_doorlock:updateDoors()`
+
 RegisterCommand('doorlock', function()
 	if not isDead and not isCuffed and closestDoor and IsAuthorized(closestV) then
 		if IsControlPressed(0, 86) or IsControlReleased(0, 86) then key = 'e' end
