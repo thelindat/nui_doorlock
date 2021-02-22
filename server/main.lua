@@ -94,44 +94,40 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	doorLocked = tostring(doorLocked)
 	slides = tostring(slides)
 	garage = tostring(garage)
-	local doorConfig
+	local doorConfig = [[
+	{
+		authorizedJobs = { ]]..jobs..[[ },
+		locked = ]]..doorLocked..[[,
+		maxDistance = ]]..maxDistance..[[,]]
 	if not doubleDoor then
-		doorConfig = [[
-	table.insert(Config.DoorList, {
+		doorConfig = doorConfig..[[
+
 		objHash = ]]..model..[[,
 		objHeading = ]]..heading..[[,
 		objCoords = ]]..coords..[[,
-		authorizedJobs = { ]]..jobs..[[ },
-		locked = ]]..doorLocked..[[,
-		maxDistance = ]]..maxDistance..[[,
-		slides = ]]..slides..[[,
-		garage = ]]..garage..[[,
 		fixText = false,
-		audioLock = nil,
-		audioUnlock = nil,
-		audioRemote = false
-	})]]
+		garage = ]]..garage..[[,
+	]]
 	else
-		doorConfig = [[
-	table.insert(Config.DoorList, {
+		doorConfig = doorConfig..[[
+
 		doors = {
 			{objHash = ]]..model[1]..[[, objHeading = ]]..heading[1]..[[, objCoords = ]]..coords[1]..[[},
 			{objHash = ]]..model[2]..[[, objHeading = ]]..heading[2]..[[, objCoords = ]]..coords[2]..[[}
 		},
-		authorizedJobs = { ]]..jobs..[[ },
-		locked = ]]..doorLocked..[[,
-		maxDistance = ]]..maxDistance..[[,
-		slides = ]]..slides..[[,
+	]]
+	end
+	doorConfig = doorConfig..[[
+	slides = ]]..slides..[[,
 		audioLock = nil,
 		audioUnlock = nil,
 		audioRemote = false
-	})]]
-	end
+	}]]
 	local path = GetResourcePath(GetCurrentResourceName())
 	path = path:gsub('//', '/')..'/config.lua'
 
 	file = io.open(path, 'a+')
-	file:write('\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n'..doorConfig)
+	file:write('\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n	table.insert(Config.DoorList,'..doorConfig..')')
 	file:close()
 end)
 
