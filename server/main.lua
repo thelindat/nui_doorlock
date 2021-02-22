@@ -94,42 +94,54 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	doorLocked = tostring(doorLocked)
 	slides = tostring(slides)
 	garage = tostring(garage)
-	local doorConfig = [[
-	{
-		authorizedJobs = { ]]..jobs..[[ },
-		locked = ]]..doorLocked..[[,
-		maxDistance = ]]..maxDistance..[[,]]
+	local newDoor = {}
+	newDoor.authorizedJobs = { jobs }
+	newDoor.locked = doorLocked
+	newDoor.maxDistance = maxDistance
+	newDoor.slides = slides
 	if not doubleDoor then
-		doorConfig = doorConfig..[[
-
-		objHash = ]]..model..[[,
-		objHeading = ]]..heading..[[,
-		objCoords = ]]..coords..[[,
-		fixText = false,
-		garage = ]]..garage..[[,
-	]]
+		newDoor.garage = garage
+		newDoor.objHash = model
+		newDoor.objHeading = heading
+		newDoor.objCoords = coords
+		newDoor.fixText = false
 	else
-		doorConfig = doorConfig..[[
-
-		doors = {
-			{objHash = ]]..model[1]..[[, objHeading = ]]..heading[1]..[[, objCoords = ]]..coords[1]..[[},
-			{objHash = ]]..model[2]..[[, objHeading = ]]..heading[2]..[[, objCoords = ]]..coords[2]..[[}
-		},
-	]]
+		newDoor.doors = {
+			{objHash = model[1], objHeading = heading[1], objCoords = coords[1]},
+			{objHash = model[2], objHeading = heading[2], objCoords = coords[2]}
+		}
 	end
-	doorConfig = doorConfig..[[
-	slides = ]]..slides..[[,
-		audioLock = nil,
-		audioUnlock = nil,
-		audioRemote = false
-	}]]
+		newDoor.audioRemote = false
+		newDoor.lockpick = false
 	local path = GetResourcePath(GetCurrentResourceName())
 	path = path:gsub('//', '/')..'/config.lua'
 
 	file = io.open(path, 'a+')
-	file:write('\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\n	table.insert(Config.DoorList,'..doorConfig..')')
+	file:write('\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\ntable.insert(Config.DoorList, {')
+	for k,v in pairs(newDoor) do
+		if k == 'authorizedJobs' then
+			local str =  ('\n	%s = { %s },'):format(k, jobs)
+			file:write(str)
+		elseif k == 'doors' then
+			local doorStr = {}
+			for i=1, 2 do
+				table.insert(doorStr, ('	{objHash = %s, objHeading = %s, objCoords = %s}'):format(model[i], heading[i], coords[i]))
+			end
+			local str = ('\n	%s = {\n	%s,\n	%s\n },'):format(k, doorStr[1], doorStr[2])
+			file:write(str)
+		else
+			local str = ('\n	%s = %s,'):format(k, v)
+			file:write(str)
+		end
+	end
+	file:write('\n})')
 	file:close()
+	local doorID = #Config.DoorList + 1
+	Config.DoorList[doorID] = newDoor
+	doorInfo[doorID] = doorLocked 
+	TriggerClientEvent('nui_doorlock:newDoorAdded', -1, newDoor, doorID, doorLocked)
 end)
+
 
 
 -- Test command that causes all doors to change state
