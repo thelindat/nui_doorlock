@@ -2,8 +2,7 @@
 
 # <a href='https://forum.cfx.re/t/esx-nui-doorlock-improved-performance-supports-sliding-doors/2068259'>nui_doorlock</a>
 A fork of esx_doorlock, featuring improved performance and improved functionality.
-<p align="center"><img src="https://i.imgur.com/wulspM9.png"/>
-* Master represents the original; old is the code I created a fork from. *</p>
+<p align="center"><img src="https://i.imgur.com/ForwXc9.png"/></p>
 <hr>
 
 * Easily add and configure new doors!  
