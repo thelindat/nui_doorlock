@@ -191,12 +191,11 @@ function setTextCoords(data)
 	local dimensions = maxDimension - minDimension
 	local dx, dy = tonumber(dimensions.x), tonumber(dimensions.y)
 	if dy <= -1 or dy >= 1 then dx = dy end
-	local offset = GetOffsetFromEntityInWorldCoords(data.object, -dx/2, 0, 0)
-	local obj = IsAnyObjectNearPoint(offset, 0.6, 0)
-	if obj == false and not data.slides then
-		offset = GetOffsetFromEntityInWorldCoords(data.object, dx/2, 0, 0)
+	if data.fixText then
+		return GetOffsetFromEntityInWorldCoords(data.object, dx/2, 0, 0)
+	else
+		return GetOffsetFromEntityInWorldCoords(data.object, -dx/2, 0, 0)
 	end
-	return offset
 end
 
 function updateDoors(specificDoor)
