@@ -10,7 +10,7 @@ Config.DoorList = {
 --	https://www.gta5-mods.com/maps/community-mission-row-pd
 ------------------------------------------
 
-	-- MRPD MAIN ENTRANCE
+-- MRPD MAIN ENTRANCE
 	{
 		authorizedJobs = { ['police']=0, ['offpolice']=0 },
 		locked = false,
@@ -119,7 +119,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true
 	},
 
 	-- MRPD ARMOURY
@@ -153,7 +152,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true
 	},
 
 	-- MRPD STORAGE
@@ -164,7 +162,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true
 	},
 
 	-- MRPD SERVER
@@ -175,7 +172,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true
 	},
 
 	-- MRPD LABORATORY
@@ -208,7 +204,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true,
+		fixText = false,
 		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
@@ -289,6 +285,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true
 	},
 
 	-- MRPD INTERVIEW 1.5
@@ -304,12 +301,17 @@ Config.DoorList = {
 
 	-- MRPD INTERVIEW 2
 	{
-		objHash = -1033001619,
-		objHeading = 180.0,
-		objCoords = vector3(477.0497, -1003.553, 25.01203),
-		authorizedJobs = { ['police']=0 },
 		locked = true,
+		authorizedJobs = { ['police']=0 },
+		audioRemote = false,
+		slides = false,
+		fixText = true,
+		objHash = -1033001619,
+		lockpick = false,
+		objHeading = 179.27952575684,
+		objCoords = vector3(477.0496, -1003.552, 25.01204),
 		maxDistance = 2.0,
+		garage = false,
 	},
 
 	-- MRPD INTERVIEW 2.5
