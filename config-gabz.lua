@@ -334,4 +334,19 @@ Config.DoorList = {
 		
 	},
 
+	-- gabz_mrpd	ROOFTOP
+	{
+		objCoords = vector3(464.3086, -984.5284, 43.77124),
+		authorizedJobs = { ['true']=0 },
+		objHeading = 90.000465393066,
+		slides = false,
+		lockpick = false,
+		audioRemote = false,
+		maxDistance = 2.0,
+		garage = false,
+		objHash = -692649124,
+		locked = true,
+		fixText = true,
+	}
+
 }
