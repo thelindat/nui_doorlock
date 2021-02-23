@@ -188,12 +188,14 @@ end
 
 function setTextCoords(data)
 	local minDimension, maxDimension = GetModelDimensions(data.objHash)
-	if data.fixText then dimensions = minDimension - maxDimension else dimensions = maxDimension - minDimension end
-	local dx, dy = tonumber(string.sub(dimensions.x, 1, 6)), tonumber(string.sub(dimensions.y, 1, 6))
-	local h = tonumber(string.sub(data.objHeading, 1, 1))
-	if h == 9 or h == 8 or h == 2 then dx, dy = dy, dx end
-	local maths = vector3(dx/2, dy/2, 0)
-	return GetEntityCoords(data.object) - maths
+	local dimensions = maxDimension - minDimension
+	local dx, dy = tonumber(dimensions.x), tonumber(dimensions.y)
+	if dy <= -1 or dy >= 1 then dx = dy end
+	if data.fixText then
+		return GetOffsetFromEntityInWorldCoords(data.object, dx/2, 0, 0)
+	else
+		return GetOffsetFromEntityInWorldCoords(data.object, -dx/2, 0, 0)
+	end
 end
 
 function updateDoors(specificDoor)
