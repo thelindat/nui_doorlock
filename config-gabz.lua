@@ -66,7 +66,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0, ['offpolice']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true
 	},
 
 	-- gabz_mrpd	GARAGE ENTRANCE 1
