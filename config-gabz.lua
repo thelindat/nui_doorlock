@@ -6,7 +6,7 @@ Config.CheckVersionDelay = 60 -- Minutes
 
 Config.DoorList = {
 ------------------------------------------
---	MISSION ROW POLICE DEPARTMENT	--
+--	MISSION ROW POLICE DEPARTMENT		--
 ------------------------------------------
 	-- gabz_mrpd	FRONT DOORS
 	{
@@ -19,7 +19,7 @@ Config.DoorList = {
 		},
 		lockpick = true
 	},
-
+	
 	-- gabz_mrpd	NORTH DOORS
 	{
 		authorizedJobs = { ['police']=0, ['offpolice']=0 },
@@ -77,6 +77,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0, ['offpolice']=0 },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true
 	},
 
 	-- gabz_mrpd	GARAGE ENTRANCE 2
@@ -158,7 +159,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true,
 		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
@@ -171,7 +171,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true,
 		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
@@ -232,7 +231,6 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		fixText = true,
 		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
@@ -256,6 +254,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true
 	},
 
 	-- gabz_mrpd	INTERROGATION I
@@ -266,6 +265,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true
 	},
 
 	-- gabz_mrpd	OBSERVATION II
@@ -276,6 +276,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true
 	},
 
 	-- gabz_mrpd	INTERROGATION II
@@ -286,6 +287,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true
 	},
 
 	-- gabz_mrpd	EVIDENCE
@@ -296,8 +298,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		setText = true,
-		textCoords = vector3(475.3978, -989.9868, 26.34802)
+		fixText = true
 	},
 
 	-- gabz_mrpd	ARMOURY 1
@@ -319,6 +320,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
+		fixText = true
 	},
 
 	-- gabz_mrpd	SHOOTING RANGE
