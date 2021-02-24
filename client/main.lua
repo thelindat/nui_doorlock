@@ -447,7 +447,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			end
 			if IsControlJustPressed(0, 24) then break end
 		end
-		if model == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
+		if not model or model == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
 		local jobs = {}
 		jobs[1] = args[3]
 		jobs[2] = args[4]
@@ -460,7 +460,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, false)
 		print('Successfully sent door data to the server')
 	elseif doorType == 'double' or doorType == 'doublesliding' then
-		local entity, coords, heading, model = {}, {}, {}, {},
+		local entity, coords, heading, model = {}, {}, {}, {}
 		print('Aim at each desired door and press left mouse button')
 		while true do
 			Citizen.Wait(0)
@@ -482,7 +482,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			end
 			if IsControlJustPressed(0, 24) then break end
 		end
-		if model[1] == 0 or model[2] == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
+		if not model[1] or model[1] == 0 or not model[2] or model[2] == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
 		if entity[1] == entity[2] then print('Can not add double door if entities are the same') return end
 		local jobs = {}
 		jobs[1] = args[3]
