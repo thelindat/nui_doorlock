@@ -5,6 +5,8 @@ A fork of esx_doorlock, featuring improved performance and improved functionalit
 <p align="center"><img src="https://i.imgur.com/2Yz7Rtm.png"/></p>
 <hr>
 
+<a href='https://github.com/thelindat/nui_doorlock/wiki'>View this page for door settings</a>
+
 * Easily add and configure new doors!  
 Use the `/newdoor` command to automatically create a new entry on the DoorList.  
 https://streamable.com/e290wk  
