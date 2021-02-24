@@ -29,8 +29,11 @@ end)
 
 -- Sync a door with the server
 RegisterNetEvent('nui_doorlock:setState')
-AddEventHandler('nui_doorlock:setState', function(doorID, locked, src)
+AddEventHandler('nui_doorlock:setState', function(sid, doorID, locked, src)
 	CreateThread(function()
+		local serverid = GetPlayerServerId(PlayerId())
+		if sid == serverid then dooranim() end
+
 		Config.DoorList[doorID].locked = locked
 		updateDoors(doorID)
 		while true do
@@ -165,7 +168,7 @@ function loadAnimDict(dict)
     end
 end
 
-function dooranim(entity, state)
+function dooranim()
 	Citizen.CreateThread(function()
     loadAnimDict("anim@heists@keycard@") 
 	TaskPlayAnim(playerPed, "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0)
@@ -361,15 +364,20 @@ Citizen.CreateThread(function()
 end)
 
 function IsAuthorized(doorID)
+	local canOpen = false
 	if ESX.PlayerData.job == nil then
 		return false
 	end
 	for job,rank in pairs(doorID.authorizedJobs) do
 		if job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade then
-			return true
+			canOpen = true
 		end
 	end
-	return false
+
+	if not canOpen and doorID.items then
+		canOpen = true -- Let the server determine if they have the item to open the door
+	end
+	return canOpen
 end
 
 exports('updateDoors', updateDoors)
@@ -380,7 +388,6 @@ RegisterCommand('doorlock', function()
 	if not isDead and not isCuffed and closestDoor and IsAuthorized(closestV) then
 		if IsControlPressed(0, 86) or IsControlReleased(0, 86) then key = 'e' end
 		local veh = GetVehiclePedIsIn(playerPed)
-		dooranim(closestV.object, closestV.locked)
 		if veh and key == 'e' then
 			Citizen.CreateThread(function()
 				local counter = 0
@@ -395,10 +402,10 @@ RegisterCommand('doorlock', function()
 				SetHornEnabled(veh, true)
 			end)
 		end
-		closestV.locked = not closestV.locked
+		local locked = not closestV.locked
 		--debug(closestDoor, closestV)
 		if closestV.audioRemote then src = NetworkGetNetworkIdFromEntity(playerPed) else src = nil end
-		TriggerServerEvent('nui_doorlock:updateState', closestDoor, closestV.locked, src) -- Broadcast new state of the door to everyone
+		TriggerServerEvent('nui_doorlock:updateState', closestDoor, locked, src) -- Broadcast new state of the door to everyone
 	end
 end)
 RegisterKeyMapping('doorlock', 'Interact with a door lock', 'keyboard', 'e')
@@ -411,8 +418,8 @@ AddEventHandler('esx_lockpick:onUse', function()
 		local count = 0
 		while GetIsTaskActive(playerPed, 225) do Citizen.Wait(10) count = count + 1 if count == 150 then break end end
 		Citizen.Wait(1800)
-		closestV.locked = not closestV.locked
-		TriggerServerEvent('nui_doorlock:updateState', closestDoor, closestV.locked, nil) -- Broadcast new state of the door to everyone
+		local locked = not closestV.locked
+		TriggerServerEvent('nui_doorlock:updateState', closestDoor, locked, nil) -- Broadcast new state of the door to everyone
 	end
 end)
 
