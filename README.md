@@ -6,7 +6,7 @@ A fork of esx_doorlock, featuring improved performance and improved functionalit
 <hr>
 
 * Easily add and configure new doors!  
-Use the /newdoor command to automatically create a new entry on the DoorList.  
+Use the `/newdoor` command to automatically create a new entry on the DoorList.  
 https://streamable.com/e290wk  
 Try using `con_miniconChannels script:nui_doorlock` for errors to popup
 
@@ -19,7 +19,7 @@ If a player comes into range of an unlocked automatic door like this, it will op
 
 * The state of the door is drawn into the world using NUI, meaning full customisation of the appearance and content.  
 By default, icons from font-awesome are being displayed; but there is support for images with this method.  
-Customisable sound playback! Modify the lock and unlock sound on a door-by-door basic.  
+Customisable audio playback! Modify the lock and unlock sound on a door-by-door basic.  
 
 * Improved performance by utilising threads and functions where appropriate.  
 Instead of updating the door list every X seconds, your position will be compared to where the last update occured and update when appropriate.  
@@ -34,7 +34,8 @@ Just choose which config file to use and rename if using gabz.
 
 * Set door access permissions  
 Set multiple jobs to be authorised to use a door, with the minimum required grade `authorizedJobs = {['police']=0, ['offpolice']=0}`  
-Allow the door to be lockpicked with `lockpick = true`
+Allow the door to be lockpicked with `lockpick = true`  
+Allow item authorisation with `items = {'key_master', 'key_lspd'}` etc.  
 
 <hr>
 <p align="center">https://streamable.com/oheu5e  
