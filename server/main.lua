@@ -59,14 +59,24 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src)
 		return
 	end
 
-	if not Config.DoorList[doorID].lockpick and not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID]) then
+	if not Config.DoorList[doorID].items and not Config.DoorList[doorID].lockpick and not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID]) then
 		print(('nui_doorlock: %s was not authorized to open a locked door!'):format(xPlayer.identifier))
 		return
 	end
 
+	if Config.DoorList[doorID].items then
+		local count
+		for k,v in pairs(Config.DoorList[doorID].items) do
+			count = xPlayer.getInventoryItem(v).count
+			--count = exports['hsn-inventory']:getItemCount(source, v)
+			if count and count >= 1 then break end
+		end
+		if not count or count < 1 then return end
+	end
+
 	doorInfo[doorID] = locked
-	if not src then TriggerClientEvent('nui_doorlock:setState', -1, doorID, locked)
-	else TriggerClientEvent('nui_doorlock:setState', -1, doorID, locked, src) end
+	if not src then TriggerClientEvent('nui_doorlock:setState', -1, source, doorID, locked)
+	else TriggerClientEvent('nui_doorlock:setState', -1, source, doorID, locked, src) end
 end)
 
 ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
