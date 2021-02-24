@@ -76,8 +76,8 @@ end)
 function IsAuthorized(jobName, grade, doorID, usedLockpick)
 	local canOpen = false
 	if doorID.lockpick and usedLockpick then
-		--count = xPlayer.getInventoryItem('lockpick').count
-		count = exports['hsn-inventory']:getItemCount(source, 'lockpick')
+		count = xPlayer.getInventoryItem('lockpick').count
+		--count = exports['hsn-inventory']:getItemCount(source, 'lockpick')
 		if count and count >= 1 then canOpen = true end
 	end
 
@@ -92,8 +92,8 @@ function IsAuthorized(jobName, grade, doorID, usedLockpick)
 	if not canOpen and doorID.items then
 		local count
 		for k,v in pairs(doorID.items) do
-			--count = xPlayer.getInventoryItem(v).count
-			count = exports['hsn-inventory']:getItemCount(source, v)
+			count = xPlayer.getInventoryItem(v).count
+			--count = exports['hsn-inventory']:getItemCount(source, v)
 			if count and count >= 1 then canOpen = true break end
 		end
 		if not count or count < 1 then canOpen = false end
