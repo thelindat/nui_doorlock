@@ -41,7 +41,7 @@ end)
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('nui_doorlock:updateState')
-AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src)
+AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLockpick)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if type(doorID) ~= 'number' then
@@ -58,20 +58,10 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src)
 		print(('nui_doorlock: %s attempted to update invalid door!'):format(xPlayer.identifier))
 		return
 	end
-
-	if not Config.DoorList[doorID].items and not Config.DoorList[doorID].lockpick and not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID]) then
-		print(('nui_doorlock: %s was not authorized to open a locked door!'):format(xPlayer.identifier))
+	
+	if not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID], usedLockpick) then
+		--print(('nui_doorlock: %s was not authorized to open a locked door!'):format(xPlayer.identifier))
 		return
-	end
-
-	if Config.DoorList[doorID].items then
-		local count
-		for k,v in pairs(Config.DoorList[doorID].items) do
-			count = xPlayer.getInventoryItem(v).count
-			--count = exports['hsn-inventory']:getItemCount(source, v)
-			if count and count >= 1 then break end
-		end
-		if not count or count < 1 then return end
 	end
 
 	doorInfo[doorID] = locked
@@ -83,14 +73,32 @@ ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
 	cb(doorInfo)
 end)
 
-function IsAuthorized(jobName, grade, doorID)
-	for job,rank in pairs(doorID.authorizedJobs) do
-		if job == jobName and rank <= grade then
-			return true
+function IsAuthorized(jobName, grade, doorID, usedLockpick)
+	local canOpen = false
+	if doorID.lockpick and usedLockpick then
+		--count = xPlayer.getInventoryItem('lockpick').count
+		count = exports['hsn-inventory']:getItemCount(source, 'lockpick')
+		if count and count >= 1 then canOpen = true end
+	end
+
+	if not canOpen and doorID.authorizedJobs then
+		for job,rank in pairs(doorID.authorizedJobs) do
+			if job == jobName and rank <= grade then
+				canOpen = true
+			end
 		end
 	end
 
-	return false
+	if not canOpen and doorID.items then
+		local count
+		for k,v in pairs(doorID.items) do
+			--count = xPlayer.getInventoryItem(v).count
+			count = exports['hsn-inventory']:getItemCount(source, v)
+			if count and count >= 1 then canOpen = true break end
+		end
+		if not count or count < 1 then canOpen = false end
+	end
+	return canOpen
 end
 
 RegisterCommand('newdoor', function(playerId, args, rawCommand)
