@@ -45,22 +45,21 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLo
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if type(doorID) ~= 'number' then
-		print(('nui_doorlock: %s didn\'t send a number!'):format(xPlayer.identifier))
+		print(('nui_doorlock: %s (%s) didn\'t send a number! (Sent %s)'):format(xPlayer.getName(), xPlayer.identifier, doorID))
 		return
 	end
 
 	if type(locked) ~= 'boolean' then
-		print(('nui_doorlock: %s attempted to update invalid state! (%s)'):format(xPlayer.identifier), locked)
+		print(('nui_doorlock: %s (%s) attempted to update invalid state! (Sent %s)'):format(xPlayer.getName(), xPlayer.identifier, locked))
 		return
 	end
 
 	if not Config.DoorList[doorID] then
-		print(('nui_doorlock: %s attempted to update invalid door!'):format(xPlayer.identifier))
+		print(('nui_doorlock: %s (%s) attempted to update invalid door! (Sent %s)'):format(xPlayer.getName(), xPlayer.identifier, doorID))
 		return
 	end
 	
 	if not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID], usedLockpick) then
-		--print(('nui_doorlock: %s was not authorized to open a locked door!'):format(xPlayer.identifier))
 		return
 	end
 
@@ -85,7 +84,11 @@ function IsAuthorized(jobName, grade, doorID, usedLockpick)
 		for job,rank in pairs(doorID.authorizedJobs) do
 			if job == jobName and rank <= grade then
 				canOpen = true
+				if canOpen then break end
 			end
+		end
+		if not canOpen and not doorID.items then
+			print(('nui_doorlock: %s (%s) was not authorized to open a locked door!'):format(xPlayer.getName(), xPlayer.identifier))
 		end
 	end
 
