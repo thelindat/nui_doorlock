@@ -27,7 +27,6 @@ The state of doors is only checked while in range, and the number of checks per 
 
 * Persistent door states! Door states are saved when the resource stops, then loaded back up on start.  
 States.json will auto-generate if the file does not exist.  
-When adding new doors to the config, you should delete states.json so a new one can be made.
 
 * Config for both Community MRPD and gabz_MRPD  
 Just choose which config file to use and rename if using gabz.
