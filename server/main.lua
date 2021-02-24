@@ -42,7 +42,8 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 RegisterServerEvent('nui_doorlock:updateState')
 AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLockpick)
-	local xPlayer = ESX.GetPlayerFromId(source)
+	local playerId = source
+	local xPlayer = ESX.GetPlayerFromId(playerId)
 
 	if type(doorID) ~= 'number' then
 		print(('nui_doorlock: %s (%s) didn\'t send a number! (Sent %s)'):format(xPlayer.getName(), xPlayer.identifier, doorID))
@@ -64,8 +65,16 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLo
 	end
 
 	doorInfo[doorID] = locked
-	if not src then TriggerClientEvent('nui_doorlock:setState', -1, source, doorID, locked)
-	else TriggerClientEvent('nui_doorlock:setState', -1, source, doorID, locked, src) end
+	if not src then TriggerClientEvent('nui_doorlock:setState', -1, playerId, doorID, locked)
+	else TriggerClientEvent('nui_doorlock:setState', -1, playerId, doorID, locked, src) end
+
+	if Config.DoorList[doorID].autoLock then
+		Citizen.SetTimeout(Config.DoorList[doorID].autoLock, function()
+			if doorInfo[doorID] == true then return end
+			doorInfo[doorID] = true
+			TriggerClientEvent('nui_doorlock:setState', -1, -1, doorID, true)
+		end)
+	end
 end)
 
 ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
