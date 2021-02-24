@@ -368,9 +368,11 @@ function IsAuthorized(doorID)
 	if ESX.PlayerData.job == nil then
 		return false
 	end
-	for job,rank in pairs(doorID.authorizedJobs) do
-		if job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade then
-			canOpen = true
+	if doorID.authorizedJobs then
+		for job,rank in pairs(doorID.authorizedJobs) do
+			if job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade then
+				canOpen = true
+			end
 		end
 	end
 
@@ -419,7 +421,7 @@ AddEventHandler('esx_lockpick:onUse', function()
 		while GetIsTaskActive(playerPed, 225) do Citizen.Wait(10) count = count + 1 if count == 150 then break end end
 		Citizen.Wait(1800)
 		local locked = not closestV.locked
-		TriggerServerEvent('nui_doorlock:updateState', closestDoor, locked, nil) -- Broadcast new state of the door to everyone
+		TriggerServerEvent('nui_doorlock:updateState', closestDoor, locked, nil, true) -- Broadcast new state of the door to everyone
 	end
 end)
 
