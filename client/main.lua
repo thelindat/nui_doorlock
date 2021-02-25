@@ -215,7 +215,7 @@ function updateDoors(specificDoor)
 							v.object = nil
 						end
 						if v.object then
-							v.doorHash = 'doorlock_'..doorID..'-'..k
+							v.doorHash = 'doorlock_'..doorID..'_'..k
 							if not IsDoorRegisteredWithSystem(v.doorHash) then
 								AddDoorToSystem(v.doorHash, v.objHash, v.objCoords, false, false, false)
 								if data.locked then
@@ -442,7 +442,6 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			if IsPlayerFreeAiming(PlayerId()) then
 				result, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords = GetEntityCoords(entity)
-				heading = GetEntityHeading(entity)
 				model = GetEntityModel(entity)
 			end
 			if IsControlJustPressed(0, 24) then break end
@@ -457,6 +456,12 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		if doorType == 'sliding' then slides = true
 		elseif doorType == 'garage' then slides, garage = 6.0, true, true end
 		if slides then maxDistance = 6.0 end
+		local doorHash = 'doorlock_'..#Config.DoorList + 1
+		AddDoorToSystem(doorHash, model, coords, false, false, false)
+		DoorSystemSetDoorState(doorHash, 4, false, false)
+		coords = GetEntityCoords(entity)
+		heading = GetEntityHeading(entity)
+		RemoveDoorFromSystem(doorHash)
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, false)
 		print('Successfully sent door data to the server')
 	elseif doorType == 'double' or doorType == 'doublesliding' then
@@ -467,7 +472,6 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			if IsPlayerFreeAiming(PlayerId()) then
 				result, entity[1] = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords[1] = GetEntityCoords(entity[1])
-				heading[1] = GetEntityHeading(entity[1])
 				model[1] = GetEntityModel(entity[1])
 			end
 			if IsControlJustPressed(0, 24) then break end
@@ -477,7 +481,6 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			if IsPlayerFreeAiming(PlayerId()) then
 				result, entity[2] = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords[2] = GetEntityCoords(entity[2])
-				heading[2] = GetEntityHeading(entity[2])
 				model[2] = GetEntityModel(entity[2])
 			end
 			if IsControlJustPressed(0, 24) then break end
@@ -492,6 +495,19 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		local maxDistance, slides, garage = 2.5, false, false
 		if doorType == 'sliding' or doorType == 'doublesliding' then slides = true end
 		if slides then maxDistance = 6.0 end
+
+		local doors = #Config.DoorList + 1
+		local doorHash = {}
+		doorHash[1] = 'doorlock_'..doors..'_'..'1'
+		doorHash[2] = 'doorlock_'..doors..'_'..'2'
+		for i=1, #doorHash do
+			AddDoorToSystem(doorHash[i], model[i], coords[i], false, false, false)
+			DoorSystemSetDoorState(doorHash[i], 4, false, false)
+			coords[i] = GetEntityCoords(entity[i])
+			heading[i] = GetEntityHeading(entity[i])
+			RemoveDoorFromSystem(doorHash[i])
+		end
+
 		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, true)
 		print('Successfully sent door data to the server')
 	end
