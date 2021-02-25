@@ -169,6 +169,13 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 			file:write(str)
 		end
 	end
+	file:write([[
+		
+	-- oldMethod == true,
+	-- items = {'key_one','key_two},
+	-- audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+	-- audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7},
+	-- autoLock = 1000]])
 	file:write('\n})')
 	file:close()
 	local doorID = #Config.DoorList + 1
