@@ -466,7 +466,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 	end
 	--if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
 	if arg then doorType = arg.doortype else doorType = args[1] end
-	if arg then doorLocked = not not arg.doorlocked else doorLocked = not not args[1] end
+	if arg then doorLocked = arg.doorlocked else doorLocked = not not args[1] end
 	if args[1] then
 		local validTypes = {['door']=true, ['sliding']=true, ['garage']=true, ['double']=true, ['doublesliding']=true}
 		if not validTypes[doorType] then print(doorType.. 'is not a valid doortype') return end
