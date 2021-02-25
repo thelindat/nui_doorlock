@@ -60,7 +60,7 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLo
 		return
 	end
 	
-	if not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID], usedLockpick) then
+	if not IsAuthorized(xPlayer.job.name, xPlayer.job.grade, Config.DoorList[doorID], usedLockpick, xPlayer) then
 		return
 	end
 
@@ -81,7 +81,7 @@ ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
 	cb(doorInfo)
 end)
 
-function IsAuthorized(jobName, grade, doorID, usedLockpick)
+function IsAuthorized(jobName, grade, doorID, usedLockpick, xPlayer)
 	local canOpen = false
 	if doorID.lockpick and usedLockpick then
 		count = xPlayer.getInventoryItem('lockpick').count
