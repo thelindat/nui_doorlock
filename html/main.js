@@ -1,7 +1,24 @@
 $('document').ready(function() {
-    
+    $('.form').hide()
 
     window.addEventListener("message", function (event) {
+
+        if (event.data.type == "newDoorSetup") {
+            event.data.enable ? $('.form').show() : $('.form').hide();
+
+            $("#newDoor").submit(function(event) {                       
+                $.post('https://nui_doorlock/newDoor', JSON.stringify({
+                    doortype: $("#doortype").val(),
+                    doorlocked: $("#doorlocked").val(),
+                    job1: $("#job1").val(),
+                    job2: $("#job2").val(),
+                    job3: $("#job3").val(),
+                    job4: $("#job4").val(),
+                    item: $("#item").val(),
+                }));
+            });
+		}
+
         if (event.data.action == 'audio') {
             var sound = document.querySelector('#sounds');
             var volume = (event.data.audio['volume'] / 10 ) * event.data.sfx
