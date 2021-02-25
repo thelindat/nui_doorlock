@@ -337,7 +337,7 @@ Config.DoorList = {
 	-- gabz_mrpd	ROOFTOP
 	{
 		objCoords = vector3(464.3086, -984.5284, 43.77124),
-		authorizedJobs = { ['true']=0 },
+		authorizedJobs = { ['police']=0 },
 		objHeading = 90.000465393066,
 		slides = false,
 		lockpick = false,
