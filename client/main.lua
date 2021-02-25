@@ -165,6 +165,25 @@ function Draw3dNUI(coords, text)
 	end
 end
 
+function Draw3dText(coords, text) -- You can revert to text if you want - it has higher average performance cost but lower spikes
+	local onScreen, _x, _y = World3dToScreen2d(coords.x, coords.y, coords.z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+	if onScreen then
+		SetTextScale(0.35, 0.35)
+		SetTextFont(4)
+		SetTextProportional(1)
+		SetTextColour(255, 255, 255, 215)
+		SetTextDropShadow(0, 0, 0, 55)
+		SetTextEdge(0, 0, 0, 150)
+		SetTextDropShadow()
+		SetTextOutline()
+		SetTextEntry("STRING")
+		SetTextCentre(1)
+		AddTextComponentString(text)
+		DrawText(_x,_y)
+	end
+end
+
 function loadAnimDict(dict)
     while (not HasAnimDictLoaded(dict)) do
         RequestAnimDict(dict)
@@ -437,16 +456,23 @@ RegisterNUICallback('newDoor', function(data, cb)
 end)
 
 RegisterNetEvent('nui_doorlock:newDoorSetup')
-AddEventHandler('nui_doorlock:newDoorSetup', function()
-	SetNuiFocus(true, true)
-	SendNUIMessage({type = "newDoorSetup", enable = true})
-	while not receivedDoorData do Citizen.Wait(100) end
-	receivedDoorData = false
-
+AddEventHandler('nui_doorlock:newDoorSetup', function(args)
+	if not args[1] then
+		SetNuiFocus(true, true)
+		SendNUIMessage({type = "newDoorSetup", enable = true})
+		while not receivedDoorData do Citizen.Wait(100) end
+		receivedDoorData = false
+	end
 	--if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
-	local doorType = args.doortype
-	local doorLocked = not not args.doorlocked
+	local doorType = args[1] or args.doortype
+	local doorLocked = not not args[2] or not not args.doorlocked
+	if args[1] then
+		local validTypes = {['door']=true, ['sliding']=true, ['garage']=true, ['double']=true, ['doublesliding']=true}
+		if not validTypes[doorType] then print(doorType.. 'is not a valid doortype') return end
+	end
+	if doorLocked ~= false and doorLocked ~= true then print('Second argument must be true or false') return end
 	if args.item == '' and args.job1 == '' then print('You must enter either a job or item for lock authorisation') return end
+	if args[7] then print('You can only set four authorised jobs - if you want more, add them to the config later') return end
 	if doorType == 'door' or doorType == 'sliding' or doorType == 'garage' then
 		local entity, coords, heading, model
 		print('Aim at your desired door and press left mouse button')
@@ -461,11 +487,18 @@ AddEventHandler('nui_doorlock:newDoorSetup', function()
 		end
 		if not model or model == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
 		local jobs = {}
-		if args.job1 ~= '' then jobs[1] = args.job1 end
-		if args.job2 ~= '' then jobs[2] = args.job2 end
-		if args.job3 ~= '' then jobs[3] = args.job3 end
-		if args.job4 ~= '' then jobs[4] = args.job4 end
-		if args.item ~= '' then item = args.item end
+		if args[3] then
+			jobs[1] = args[3]
+			jobs[2] = args[4]
+			jobs[3] = args[5]
+			jobs[4] = args[6]
+		else
+			if args.job1 ~= '' then jobs[1] = args.job1 end
+			if args.job2 ~= '' then jobs[2] = args.job2 end
+			if args.job3 ~= '' then jobs[3] = args.job3 end
+			if args.job4 ~= '' then jobs[4] = args.job4 end
+			if args.item ~= '' then item = args.item end
+		end
 		local maxDistance, slides, garage = 2.0, false, false
 		if doorType == 'sliding' then slides = true
 		elseif doorType == 'garage' then slides, garage = 6.0, true, true end
@@ -502,11 +535,18 @@ AddEventHandler('nui_doorlock:newDoorSetup', function()
 		if not model[1] or model[1] == 0 or not model[2] or model[2] == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
 		if entity[1] == entity[2] then print('Can not add double door if entities are the same') return end
 		local jobs = {}
-		if args.job1 ~= '' then jobs[1] = args.job1 end
-		if args.job2 ~= '' then jobs[2] = args.job2 end
-		if args.job3 ~= '' then jobs[3] = args.job3 end
-		if args.job4 ~= '' then jobs[4] = args.job4 end
-		if args.item ~= '' then item = args.item end
+		if args[3] then
+			jobs[1] = args[3]
+			jobs[2] = args[4]
+			jobs[3] = args[5]
+			jobs[4] = args[6]
+		else
+			if args.job1 ~= '' then jobs[1] = args.job1 end
+			if args.job2 ~= '' then jobs[2] = args.job2 end
+			if args.job3 ~= '' then jobs[3] = args.job3 end
+			if args.job4 ~= '' then jobs[4] = args.job4 end
+			if args.item ~= '' then item = args.item end
+		end
 		local maxDistance, slides, garage = 2.5, false, false
 		if doorType == 'sliding' or doorType == 'doublesliding' then slides = true end
 		if slides then maxDistance = 6.0 end
@@ -535,7 +575,7 @@ AddEventHandler('nui_doorlock:newDoorAdded', function(newDoor, doorID, locked)
 	TriggerEvent('nui_doorlock:setState', GetPlayerServerId(PlayerId()), doorID, locked)
 end)
 
-RegisterCommand('doornui', function(playerId, args, rawCommand)
+RegisterCommand('-nui', function(playerId, args, rawCommand)
 	SetNuiFocus(false, false)
 	SendNUIMessage({type = "newDoorSetup", enable = false})
 end, false)
