@@ -10,7 +10,7 @@ $('document').ready(function() {
                 $.post('https://nui_doorlock/newDoor', JSON.stringify({
                     doorname: $("#doorname").val(),
                     doortype: $("#doortype").val(),
-                    doorlocked: $("#doorlocked").val(),
+                    doorlocked: $("input[type='radio'][name='doorlocked']:checked").val(),
                     job1: $("#job1").val(),
                     job2: $("#job2").val(),
                     job3: $("#job3").val(),
