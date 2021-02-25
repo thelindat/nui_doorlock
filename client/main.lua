@@ -501,5 +501,5 @@ RegisterNetEvent('nui_doorlock:newDoorAdded')
 AddEventHandler('nui_doorlock:newDoorAdded', function(newDoor, doorID, locked)
 	Config.DoorList[doorID] = newDoor
 	updateDoors()
-	TriggerEvent('nui_doorlock:setState', doorID, locked)
+	TriggerEvent('nui_doorlock:setState', GetPlayerServerId(PlayerId()), doorID, locked)
 end)
