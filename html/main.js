@@ -8,13 +8,14 @@ $('document').ready(function() {
 
             $("#newDoor").submit(function(event) {                       
                 $.post('https://nui_doorlock/newDoor', JSON.stringify({
+                    doorname: $("#doorname").val(),
                     doortype: $("#doortype").val(),
                     doorlocked: $("#doorlocked").val(),
                     job1: $("#job1").val(),
                     job2: $("#job2").val(),
                     job3: $("#job3").val(),
                     job4: $("#job4").val(),
-                    item: $("#item").val(),
+                    item: $("#item").val()
                 }));
             });
 		}
