@@ -369,13 +369,19 @@ Citizen.CreateThread(function()
 					end
 				else
 					local door = {}
-					for k2,v2 in ipairs(closestV.doors) do
-						local doorState = DoorSystemGetDoorState(v2.doorHash)
-						if doorState == 1 and closestV.locked then door[k2] = true else door[k2] = false end
+					local state = {}
+					door[1] = closestV.doors[1]
+					door[2] = closestV.doors[2]
+					state[1] = DoorSystemGetDoorState(door[1].doorHash)
+					state[2] = DoorSystemGetDoorState(door[2].doorHash)
+					
+					if closestV.locked and (state[1] ~= 1 or state[2] ~= 1) then
+						Draw3dNUI(closestV.textCoords, 'Locking')
+					elseif not closestV.locked then
+						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
+					else
+						Draw3dNUI(closestV.textCoords, 'Locked')
 					end
-					if door[1] == true and door[2] == true then Draw3dNUI(closestV.textCoords, 'Locked')
-					elseif not closestV.locked then if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
-					else Draw3dNUI(closestV.textCoords, 'Locking') end
 				end
 			else
 				if closestDistance > closestV.maxDistance and isDrawing then
