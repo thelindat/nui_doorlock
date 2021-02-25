@@ -267,11 +267,11 @@ function updateDoors(specificDoor)
 					end
 				end
 			elseif not data.setText and not data.doors and DoesEntityExist(data.object) then
-				if not data.garage then
-					data.textCoords = setTextCoords(data)
+				if data.garage == true then
+					data.textCoords = data.objCoords
 					data.setText = true
 				else
-					data.textCoords = GetEntityCoords(data.object)
+					data.textCoords = setTextCoords(data)
 					data.setText = true
 				end
 				if data.slides then
