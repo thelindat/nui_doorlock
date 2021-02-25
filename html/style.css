@@ -27,7 +27,7 @@
 
 .form {
     width: 300px;
-    height: 420px;
+    height: 485px;
     padding: 20px;
     padding-top: 0;
     background-color: rgba(10, 10, 10, 1);
@@ -36,17 +36,17 @@
     opacity: 0.9;
     top: 50%;
     left: 50%;
-    display: block;
+    display: inline-block;
     transform: translate(-50%, -50%);
     border-radius:5px;
     font-size: 10pt;
+    line-height:2pt;
 }
 
 .line {
     border: 0;
     border-top: 2px solid rgba(255,255,255,0.05);
     border-radius:2px;
-    padding-bottom: 5px;
 }
 
 option {
