@@ -118,19 +118,20 @@ RegisterCommand('newdoor', function(playerId, args, rawCommand)
 end, true)
 
 RegisterServerEvent('nui_doorlock:newDoorCreate')
-AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, doorLocked, maxDistance, slides, garage, doubleDoor)
+AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, doubleDoor)
 	xPlayer = ESX.GetPlayerFromId(source)
 	if not IsPlayerAceAllowed(source, 'command.newdoor') then print(xPlayer.getName().. 'attempted to create a new door but does not have permission') return end
 	doorLocked = tostring(doorLocked)
 	slides = tostring(slides)
 	garage = tostring(garage)
 	local newDoor = {}
-	local auth = tostring("['"..jobs[1].."']=0")
+	if jobs[1] then auth = tostring("['"..jobs[1].."']=0") end
 	if jobs[2] then auth = auth..', '..tostring("['"..jobs[2].."']=0") end
 	if jobs[3] then auth = auth..', '..tostring("['"..jobs[3].."']=0") end
 	if jobs[4] then auth = auth..', '..tostring("['"..jobs[4].."']=0") end
 
-	newDoor.authorizedJobs = { auth }
+	if auth then newDoor.authorizedJobs = { auth } end
+	if item then newDoor.items = { item } end
 	newDoor.locked = doorLocked
 	newDoor.maxDistance = maxDistance
 	newDoor.slides = slides
@@ -164,6 +165,9 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 			end
 			local str = ('\n	%s = {\n	%s,\n	%s\n },'):format(k, doorStr[1], doorStr[2])
 			file:write(str)
+		elseif k == 'items' then
+			local str = ('\n	%s = { \'%s\' },'):format(k, item)
+			file:write(str)
 		else
 			local str = ('\n	%s = %s,'):format(k, v)
 			file:write(str)
@@ -172,7 +176,6 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	file:write([[
 		
 	-- oldMethod == true,
-	-- items = {'key_one','key_two},
 	-- audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
 	-- audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7},
 	-- autoLock = 1000]])
@@ -183,7 +186,8 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	if jobs[4] then newDoor.authorizedJobs = { [jobs[1]] = 0, [jobs[2]] = 0, [jobs[3]] = 0, [jobs[4]] = 0 }
 	elseif jobs[3] then newDoor.authorizedJobs = { [jobs[1]] = 0, [jobs[2]] = 0, [jobs[3]] = 0 }
 	elseif jobs[2] then newDoor.authorizedJobs = { [jobs[1]] = 0, [jobs[2]] = 0 }
-	else newDoor.authorizedJobs = { [jobs[1]] = 0 } end
+	elseif jobs[1] then newDoor.authorizedJobs = { [jobs[1]] = 0 } end
+	if item then newDoor.Items = { item } end
 
 	Config.DoorList[doorID] = newDoor
 	doorInfo[doorID] = doorLocked 
