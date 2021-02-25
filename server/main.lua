@@ -118,7 +118,7 @@ RegisterCommand('newdoor', function(playerId, args, rawCommand)
 end, true)
 
 RegisterServerEvent('nui_doorlock:newDoorCreate')
-AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, doubleDoor)
+AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, doubleDoor, doorname)
 	xPlayer = ESX.GetPlayerFromId(source)
 	if not IsPlayerAceAllowed(source, 'command.newdoor') then print(xPlayer.getName().. 'attempted to create a new door but does not have permission') return end
 	doorLocked = tostring(doorLocked)
@@ -153,7 +153,11 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	path = path:gsub('//', '/')..'/config.lua'
 
 	file = io.open(path, 'a+')
-	file:write('\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\ntable.insert(Config.DoorList, {')
+	if not doorname then label = '\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\ntable.insert(Config.DoorList, {'
+	else
+		label = '\n\n-- '..doorname.. '\ntable.insert(Config.DoorList, {'
+	end
+	file:write(label)
 	for k,v in pairs(newDoor) do
 		if k == 'authorizedJobs' then
 			local str =  ('\n	%s = { %s },'):format(k, auth)
@@ -175,7 +179,7 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	end
 	file:write([[
 		
-	-- oldMethod == true,
+	-- oldMethod = true,
 	-- audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
 	-- audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7},
 	-- autoLock = 1000]])
