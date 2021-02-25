@@ -25,7 +25,6 @@ Citizen.CreateThread(function()
 	updateDoors()
 	playerNotActive = nil
 	retrievedData = nil
-	SetNuiFocus(false, false)
 end)
 
 -- Sync a door with the server
@@ -535,3 +534,8 @@ AddEventHandler('nui_doorlock:newDoorAdded', function(newDoor, doorID, locked)
 	updateDoors()
 	TriggerEvent('nui_doorlock:setState', GetPlayerServerId(PlayerId()), doorID, locked)
 end)
+
+RegisterCommand('doornui', function(playerId, args, rawCommand)
+	SetNuiFocus(false, false)
+	SendNUIMessage({type = "newDoorSetup", enable = false})
+end, false)
