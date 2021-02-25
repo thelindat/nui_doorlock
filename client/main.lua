@@ -207,8 +207,11 @@ end
 
 function debug(doorID, data)
 	if GetDistanceBetweenCoords(playerCoords, data.textCoords) < 3 then
-		if data.doors then door = '{'.. data.doors[1].object..' '.. data.doors[2].object.. '}' else door = data.object end
-		return print(   ('[%s] locked: %s  object: %s'):format(doorID, data.locked, door)   )
+		for k,v in pairs(data) do
+			print(  ('%s = %s'):format(k, v) )
+		end
+		print('\nCurrent Heading: '..GetEntityHeading(data.object))
+		print('Current Coords: '..GetEntityCoords(data.object))
 	end
 end
 
@@ -448,12 +451,24 @@ AddEventHandler('esx_lockpick:onUse', function()
 	end
 end)
 
+function closeNUI()
+	SetNuiFocus(false, false)
+	SendNUIMessage({type = "newDoorSetup", enable = false})
+end
+
 RegisterNUICallback('newDoor', function(data, cb)
 	receivedDoorData = true
 	arg = data
-	SetNuiFocus(false, false)
-	SendNUIMessage({type = "newDoorSetup", enable = false})
+	closeNUI()
 end)
+
+RegisterNUICallback('close', function(data, cb)
+	closeNUI()
+end)
+
+RegisterCommand('-nui', function(playerId, args, rawCommand)
+	closeNUI()
+end, false)
 
 RegisterNetEvent('nui_doorlock:newDoorSetup')
 AddEventHandler('nui_doorlock:newDoorSetup', function(args)
@@ -576,8 +591,3 @@ AddEventHandler('nui_doorlock:newDoorAdded', function(newDoor, doorID, locked)
 	updateDoors()
 	TriggerEvent('nui_doorlock:setState', GetPlayerServerId(PlayerId()), doorID, locked)
 end)
-
-RegisterCommand('-nui', function(playerId, args, rawCommand)
-	SetNuiFocus(false, false)
-	SendNUIMessage({type = "newDoorSetup", enable = false})
-end, false)
