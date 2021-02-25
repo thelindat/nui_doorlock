@@ -58,3 +58,10 @@ $('document').ready(function() {
         }
     })
 });
+
+document.onkeyup = function (data) {
+    if (data.which == 27) {
+        $.post('https://nui_doorlock/close');
+        return
+    }
+};
