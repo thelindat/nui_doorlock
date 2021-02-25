@@ -192,7 +192,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.35},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
 
@@ -205,7 +205,7 @@ Config.DoorList = {
 		locked = true,
 		maxDistance = 2.0,
 		fixText = false,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.35},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
 
@@ -217,7 +217,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.35},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
 
@@ -229,7 +229,7 @@ Config.DoorList = {
 		authorizedJobs = { ['police']=0 },
 		locked = true,
 		maxDistance = 2.0,
-		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.6},
+		audioLock = {['file'] = 'metal-locker.ogg', ['volume'] = 0.35},
 		audioUnlock = {['file'] = 'metallic-creak.ogg', ['volume'] = 0.7}
 	},
 
