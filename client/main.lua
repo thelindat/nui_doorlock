@@ -450,7 +450,7 @@ end)
 
 RegisterNUICallback('newDoor', function(data, cb)
 	receivedDoorData = true
-	args = data
+	arg = data
 	SetNuiFocus(false, false)
 	SendNUIMessage({type = "newDoorSetup", enable = false})
 end)
@@ -458,20 +458,21 @@ end)
 RegisterNetEvent('nui_doorlock:newDoorSetup')
 AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 	if not args[1] then
+		receivedDoorData = false
 		SetNuiFocus(true, true)
 		SendNUIMessage({type = "newDoorSetup", enable = true})
 		while not receivedDoorData do Citizen.Wait(100) end
 		receivedDoorData = false
 	end
 	--if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
-	local doorType = args[1] or args.doortype
-	local doorLocked = not not args[2] or not not args.doorlocked
+	if arg then doorType = arg.doortype else doorType = args[1] end
+	if arg then doorLocked = not not arg.doorlocked else doorLocked = not not args[1] end
 	if args[1] then
 		local validTypes = {['door']=true, ['sliding']=true, ['garage']=true, ['double']=true, ['doublesliding']=true}
 		if not validTypes[doorType] then print(doorType.. 'is not a valid doortype') return end
 	end
-	if doorLocked ~= false and doorLocked ~= true then print('Second argument must be true or false') return end
-	if args.item == '' and args.job1 == '' then print('You must enter either a job or item for lock authorisation') return end
+	if args[2] and doorLocked ~= false and doorLocked ~= true then print('Second argument must be true or false') return end
+	if arg and arg.item == '' and arg.job1 == '' then print('You must enter either a job or item for lock authorisation') return end
 	if args[7] then print('You can only set four authorised jobs - if you want more, add them to the config later') return end
 	if doorType == 'door' or doorType == 'sliding' or doorType == 'garage' then
 		local entity, coords, heading, model
@@ -493,11 +494,11 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			jobs[3] = args[5]
 			jobs[4] = args[6]
 		else
-			if args.job1 ~= '' then jobs[1] = args.job1 end
-			if args.job2 ~= '' then jobs[2] = args.job2 end
-			if args.job3 ~= '' then jobs[3] = args.job3 end
-			if args.job4 ~= '' then jobs[4] = args.job4 end
-			if args.item ~= '' then item = args.item end
+			if arg.job1 ~= '' then jobs[1] = arg.job1 end
+			if arg.job2 ~= '' then jobs[2] = arg.job2 end
+			if arg.job3 ~= '' then jobs[3] = arg.job3 end
+			if arg.job4 ~= '' then jobs[4] = arg.job4 end
+			if arg.item ~= '' then item = arg.item end
 		end
 		local maxDistance, slides, garage = 2.0, false, false
 		if doorType == 'sliding' then slides = true
@@ -509,7 +510,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		coords = GetEntityCoords(entity)
 		heading = GetEntityHeading(entity)
 		RemoveDoorFromSystem(doorHash)
-		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, false)
+		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, false, arg.doorname)
 		print('Successfully sent door data to the server')
 	elseif doorType == 'double' or doorType == 'doublesliding' then
 		local entity, coords, heading, model = {}, {}, {}, {}
@@ -541,11 +542,11 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			jobs[3] = args[5]
 			jobs[4] = args[6]
 		else
-			if args.job1 ~= '' then jobs[1] = args.job1 end
-			if args.job2 ~= '' then jobs[2] = args.job2 end
-			if args.job3 ~= '' then jobs[3] = args.job3 end
-			if args.job4 ~= '' then jobs[4] = args.job4 end
-			if args.item ~= '' then item = args.item end
+			if arg.job1 ~= '' then jobs[1] = arg.job1 end
+			if arg.job2 ~= '' then jobs[2] = arg.job2 end
+			if arg.job3 ~= '' then jobs[3] = arg.job3 end
+			if arg.job4 ~= '' then jobs[4] = arg.job4 end
+			if arg.item ~= '' then item = arg.item end
 		end
 		local maxDistance, slides, garage = 2.5, false, false
 		if doorType == 'sliding' or doorType == 'doublesliding' then slides = true end
@@ -563,8 +564,9 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			RemoveDoorFromSystem(doorHash[i])
 		end
 
-		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, true)
+		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, true, arg.doorname)
 		print('Successfully sent door data to the server')
+		arg = nil
 	end
 end)
 
