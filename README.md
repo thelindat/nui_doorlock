@@ -5,12 +5,11 @@ A fork of esx_doorlock, featuring improved performance and improved functionalit
 <p align="center"><img src="https://i.imgur.com/2Yz7Rtm.png"/></p>
 <hr>
 
-<a href='https://github.com/thelindat/nui_doorlock/wiki'>View this page for door settings</a>
+<p align='center'><a href='https://github.com/thelindat/nui_doorlock/wiki'>View this page for door settings</a><br>Try using `con_miniconChannels script:nui_doorlock` for errors to popup</p>
 
 * Easily add and configure new doors!  
 Use the `/newdoor` command to automatically create a new entry on the DoorList.  
-https://streamable.com/e290wk  
-Try using `con_miniconChannels script:nui_doorlock` for errors to popup
+<p align='center'><img src='https://i.imgur.com/F7fzgYN.png'></img></p>
 
 * No more `SetEntityHeading` and `FreezeEntityPosition` natives.  
  Doors in range are assigned a doorHash, used with `AddDoorToSystem`.  
