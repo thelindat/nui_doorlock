@@ -402,7 +402,7 @@ function IsAuthorized(doorID)
 	end
 	if doorID.authorizedJobs then
 		for job,rank in pairs(doorID.authorizedJobs) do
-			if job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade then
+			if (job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade) or (ESX.PlayerData.job2 and job == ESX.PlayerData.job2.name and rank <= ESX.PlayerData.job2.grade) then
 				canOpen = true
 			end
 		end
