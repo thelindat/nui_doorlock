@@ -21,7 +21,7 @@ Citizen.CreateThread(function()
 		retrievedData = true
 	end)
 	while not retrievedData do Citizen.Wait(0) end
-	--while IsPedStill(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId()) do Citizen.Wait(0) end
+	while IsPedStill(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId()) do Citizen.Wait(0) end
 	updateDoors()
 	playerNotActive = nil
 	retrievedData = nil
@@ -245,7 +245,7 @@ function updateDoors(specificDoor)
 							if not IsDoorRegisteredWithSystem(v.doorHash) then
 								AddDoorToSystem(v.doorHash, v.objHash, v.objCoords, false, false, false)
 								if data.locked then
-									--[[DoorSystemSetDoorState(v.doorHash, 4, false, false)]] DoorSystemSetDoorState(v.doorHash, 1, false, false)
+									DoorSystemSetDoorState(v.doorHash, 4, false, false) DoorSystemSetDoorState(v.doorHash, 1, false, false)
 								else
 									DoorSystemSetDoorState(v.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(v.object, false) end
 								end
@@ -268,7 +268,7 @@ function updateDoors(specificDoor)
 						if not IsDoorRegisteredWithSystem(data.doorHash) then
 							AddDoorToSystem(data.doorHash, data.objHash, data.objCoords, false, false, false) 
 							if data.locked then
-								--[[DoorSystemSetDoorState(data.doorHash, 4, false, false)]] DoorSystemSetDoorState(data.doorHash, 1, false, false)
+								DoorSystemSetDoorState(data.doorHash, 4, false, false) DoorSystemSetDoorState(data.doorHash, 1, false, false)
 							else
 								DoorSystemSetDoorState(data.doorHash, 0, false, false) if data.oldMethod then FreezeEntityPosition(data.object, false) end
 							end
