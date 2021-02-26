@@ -40,7 +40,7 @@ AddEventHandler('nui_doorlock:setState', function(sid, doorID, locked, src)
 			Citizen.Wait(0)
 			if Config.DoorList[doorID].doors then
 				for k, v in pairs(Config.DoorList[doorID].doors) do
-					if not DoesEntityExist(v.object) then return end -- If the entity does not exist, end the loop
+					if not IsDoorRegisteredWithSystem(v.doorHash) then return end -- If door is not registered end the loop
 					v.currentHeading = GetEntityHeading(v.object)
 					v.doorState = DoorSystemGetDoorState(v.doorHash)
 					if Config.DoorList[doorID].slides then
@@ -68,7 +68,7 @@ AddEventHandler('nui_doorlock:setState', function(sid, doorID, locked, src)
 					end
 				end
 			else
-				if not DoesEntityExist(Config.DoorList[doorID].object) then return end -- If the entity does not exist, end the loop
+				if not IsDoorRegisteredWithSystem(Config.DoorList[doorID].doorHash) then return end -- If door is not registered end the loop
 				Config.DoorList[doorID].currentHeading = GetEntityHeading(Config.DoorList[doorID].object)
 				Config.DoorList[doorID].doorState = DoorSystemGetDoorState(Config.DoorList[doorID].doorHash)
 				if Config.DoorList[doorID].slides then
