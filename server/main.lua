@@ -60,7 +60,7 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLo
 		return
 	end
 	
-	if not IsAuthorized(xPlayer, Config.DoorList[doorID], usedLockpick) then
+	if not IsAuthorized(xPlayer, Config.DoorList[doorID], doorInfo[doorID], usedLockpick) then
 		return
 	end
 
@@ -81,7 +81,7 @@ ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
 	cb(doorInfo)
 end)
 
-function IsAuthorized(xPlayer, doorID, usedLockpick)
+function IsAuthorized(xPlayer, doorID, locked, usedLockpick)
 	local jobName, grade = {}, {}
 	jobName[1] = xPlayer.job.name
 	grade[1] = xPlayer.job.grade
@@ -92,7 +92,6 @@ function IsAuthorized(xPlayer, doorID, usedLockpick)
 	local canOpen = false
 	if doorID.lockpick and usedLockpick then
 		count = xPlayer.getInventoryItem('lockpick').count
-		--count = exports['hsn-inventory']:getItemCount(source, 'lockpick')
 		if count and count >= 1 then canOpen = true end
 	end
 
@@ -112,8 +111,14 @@ function IsAuthorized(xPlayer, doorID, usedLockpick)
 		local count
 		for k,v in pairs(doorID.items) do
 			count = xPlayer.getInventoryItem(v).count
-			--count = exports['hsn-inventory']:getItemCount(source, v)
-			if count and count >= 1 then canOpen = true break end
+			if count and count >= 1 then
+				canOpen = true
+				local consumables = { ['ticket']=1 }
+				if locked and consumables[v] then
+					xPlayer.removeInventoryItem(v, 1)
+				end
+				break
+			end
 		end
 		if not count or count < 1 then canOpen = false end
 	end
