@@ -502,7 +502,9 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 				result, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords = GetEntityCoords(entity)
 				model = GetEntityModel(entity)
+				heading = GetEntityHeading(entity)
 			end
+			if result then DrawInfos("Coordinates: " .. coords .. "\nHeading: " .. heading .. "\nHash: " .. model) end     -- Draw the text on screen
 			if IsControlJustPressed(0, 24) then break end
 		end
 		if not model or model == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
@@ -541,7 +543,9 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 				result, entity[1] = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords[1] = GetEntityCoords(entity[1])
 				model[1] = GetEntityModel(entity[1])
+				local heading = GetEntityHeading(entity)
 			end
+			if result then DrawInfos("Coordinates: " .. coords[1] .. "\nHeading: " .. heading .. "\nHash: " .. model[1]) end     -- Draw the text on screen
 			if IsControlJustPressed(0, 24) then break end
 		end
 		while true do
@@ -550,7 +554,9 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 				result, entity[2] = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords[2] = GetEntityCoords(entity[2])
 				model[2] = GetEntityModel(entity[2])
+				local heading = GetEntityHeading(entity)
 			end
+			if result then DrawInfos("Coordinates: " .. coords[2] .. "\nHeading: " .. heading .. "\nHash: " .. model[2]) end     -- Draw the text on screen
 			if IsControlJustPressed(0, 24) then break end
 		end
 		if not model[1] or model[1] == 0 or not model[2] or model[2] == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
@@ -589,6 +595,20 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		arg = nil
 	end
 end)
+
+function DrawInfos(text)
+    SetTextColour(255, 255, 255, 255)   -- Color
+    SetTextFont(4)                      -- Font
+    SetTextScale(0.4, 0.4)              -- Scale
+    SetTextWrap(0.0, 1.0)               -- Wrap the text
+    SetTextCentre(false)                -- Align to center(?)
+    SetTextDropshadow(0, 0, 0, 0, 255)  -- Shadow. Distance, R, G, B, Alpha.
+    SetTextEdge(50, 0, 0, 0, 255)       -- Edge. Width, R, G, B, Alpha.
+    SetTextOutline()                    -- Necessary to give it an outline.
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(0.015, 0.71)               -- Position
+end
 
 RegisterNetEvent('nui_doorlock:newDoorAdded')
 AddEventHandler('nui_doorlock:newDoorAdded', function(newDoor, doorID, locked)
