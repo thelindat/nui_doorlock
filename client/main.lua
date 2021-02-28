@@ -309,7 +309,7 @@ function updateDoors(specificDoor)
 		end
 	end
 	doorCount = DoorSystemGetSize()
-	--if doorCount ~= 0 then print(('%s doors are loaded'):format(doorCount)) end
+	if doorCount ~= 0 then print(('%s doors are loaded'):format(doorCount)) end
 end
 
 Citizen.CreateThread(function()
