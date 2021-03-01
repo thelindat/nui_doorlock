@@ -309,7 +309,7 @@ function updateDoors(specificDoor)
 		end
 	end
 	doorCount = DoorSystemGetSize()
-	if doorCount ~= 0 then print(('%s doors are loaded'):format(doorCount)) end
+	--if doorCount ~= 0 then print(('%s doors are loaded'):format(doorCount)) end
 end
 
 Citizen.CreateThread(function()
@@ -490,11 +490,11 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 	if arg then doorLocked = arg.doorlocked else doorLocked = not not args[1] end
 	local validTypes = {['door']=true, ['sliding']=true, ['garage']=true, ['double']=true, ['doublesliding']=true}
 	if not validTypes[doorType] then print(doorType.. ' is not a valid doortype') return end
-	if args[2] and doorLocked ~= false and doorLocked ~= true then print('Second argument must be true or false') return end
 	if arg and arg.item == '' and arg.job1 == '' then print('You must enter either a job or item for lock authorisation') return end
 	if args[7] then print('You can only set four authorised jobs - if you want more, add them to the config later') return end
 	if doorType == 'door' or doorType == 'sliding' or doorType == 'garage' then
-		local entity, coords, heading, model
+		local entity, coords, heading, model = nil, nil, nil, nil
+		local result = false
 		print('Aim at your desired door and press left mouse button')
 		while true do
 			Citizen.Wait(0)
