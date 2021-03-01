@@ -543,7 +543,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 				result, entity[1] = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords[1] = GetEntityCoords(entity[1])
 				model[1] = GetEntityModel(entity[1])
-				local heading = GetEntityHeading(entity)
+				local heading = GetEntityHeading(entity[1])
 			end
 			if result then DrawInfos("Coordinates: " .. coords[1] .. "\nHeading: " .. heading .. "\nHash: " .. model[1]) end     -- Draw the text on screen
 			if IsControlJustPressed(0, 24) then break end
@@ -554,7 +554,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 				result, entity[2] = GetEntityPlayerIsFreeAimingAt(PlayerId())
 				coords[2] = GetEntityCoords(entity[2])
 				model[2] = GetEntityModel(entity[2])
-				local heading = GetEntityHeading(entity)
+				local heading = GetEntityHeading(entity[2])
 			end
 			if result then DrawInfos("Coordinates: " .. coords[2] .. "\nHeading: " .. heading .. "\nHash: " .. model[2]) end     -- Draw the text on screen
 			if IsControlJustPressed(0, 24) then break end
