@@ -536,6 +536,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		print('Successfully sent door data to the server')
 	elseif doorType == 'double' or doorType == 'doublesliding' then
 		local entity, coords, heading, model = {}, {}, {}, {}
+		local result = false
 		print('Aim at each desired door and press left mouse button')
 		while true do
 			Citizen.Wait(0)
@@ -548,6 +549,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			if result then DrawInfos("Coordinates: " .. coords[1] .. "\nHeading: " .. heading[1] .. "\nHash: " .. model[1]) end     -- Draw the text on screen
 			if IsControlJustPressed(0, 24) then break end
 		end
+		result = false
 		while true do
 			Citizen.Wait(0)
 			if IsPlayerFreeAiming(PlayerId()) then
