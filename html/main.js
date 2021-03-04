@@ -13,7 +13,7 @@ $('document').ready(function() {
             event.data.enable ? $('.form').show() : $('.form').hide();
 
             $("#newDoor").submit(function(event) {                       
-                $.post('nui://nui_doorlock/newDoor', JSON.stringify({
+                $.post('https://nui_doorlock/newDoor', JSON.stringify({
                     doorname: $("#doorname").val(),
                     doortype: $("#doortype").val(),
                     doorlocked: $("input[type='radio'][name='doorlocked']:checked").val(),
