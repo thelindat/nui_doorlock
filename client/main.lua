@@ -14,6 +14,7 @@ Citizen.CreateThread(function()
 	end
 	ESX.PlayerData = ESX.GetPlayerData()
 	-- Sync doors with the server
+	Citizen.Wait(1000)
 	ESX.TriggerServerCallback('nui_doorlock:getDoorInfo', function(doorInfo)
 		for doorID, locked in pairs(doorInfo) do
 			Config.DoorList[doorID].locked = locked
