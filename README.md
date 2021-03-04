@@ -1,14 +1,13 @@
 # <a href='https://forum.cfx.re/t/esx-nui-doorlock-improved-performance-supports-sliding-doors/2068259'>nui_doorlock</a>
 A fork of esx_doorlock, featuring improved performance and improved functionality.
-<p align="center"><img src="https://i.imgur.com/2Yz7Rtm.png"/></p>
+<p align="center">*Resource folder must be `nui_doorlock!`*<br><br>
+<img src='https://i.imgur.com/F7fzgYN.png'></img></p>
 <hr>
 
 <h3 align='center'>For more support or to see more of my resources you can join my <a href='https://discord.gg/hmcmv3P7YW'>discord</a></h3>
 <p align='center'>
 <a href="https://www.buymeacoffee.com/thelindat" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 </p>
-
-<p align='center'><img src='https://i.imgur.com/F7fzgYN.png'></img></p>
 
 * Easily add and configure new doors! <a href='https://streamable.com/e290wk'>Example video</a>  
 Use the `/newdoor` command to automatically create a new entry on the DoorList.  
@@ -42,6 +41,9 @@ Allow item authorisation with `items = {'key_master', 'key_lspd'}` etc.
 <hr>
 <p align="center">https://streamable.com/oheu5e  
 <img src="https://i.imgur.com/Sug2Nj5.jpg"/></p>
+
+
+<p align='center'><img src="https://i.imgur.com/2Yz7Rtm.png"/></img></p>
 
 
 <br><br><br>
