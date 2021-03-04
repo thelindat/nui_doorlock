@@ -1,6 +1,6 @@
 # <a href='https://forum.cfx.re/t/esx-nui-doorlock-improved-performance-supports-sliding-doors/2068259'>nui_doorlock</a>
 A fork of esx_doorlock, featuring improved performance and improved functionality.
-<p align="center">*Resource folder must be `nui_doorlock!`*<br><br>
+<p align="center"><i>Resource folder must be <b>nui_doorlock</b></i><br><br>
 <img src='https://i.imgur.com/F7fzgYN.png'></img></p>
 <hr>
 
