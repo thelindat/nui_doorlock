@@ -1,13 +1,19 @@
 $('document').ready(function() {
     $('.form').hide()
 
+    document.onkeydown = function (data) {
+        if (data.which == 27) {
+            $.post('https://nui_doorlock/close');
+        }
+    };
+
     window.addEventListener("message", function (event) {
 
         if (event.data.type == "newDoorSetup") {
             event.data.enable ? $('.form').show() : $('.form').hide();
 
             $("#newDoor").submit(function(event) {                       
-                $.post('https://nui_doorlock/newDoor', JSON.stringify({
+                $.post('nui://nui_doorlock/newDoor', JSON.stringify({
                     doorname: $("#doorname").val(),
                     doortype: $("#doortype").val(),
                     doorlocked: $("input[type='radio'][name='doorlocked']:checked").val(),
@@ -58,10 +64,3 @@ $('document').ready(function() {
         }
     })
 });
-
-document.onkeyup = function (data) {
-    if (data.which == 27) {
-        $.post('https://nui_doorlock/close');
-        return
-    }
-};
