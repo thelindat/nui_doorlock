@@ -78,7 +78,6 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLo
 end)
 
 ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
-	while not doorInfo[1] do Citizen.Wait(50) end
 	cb(doorInfo)
 end)
 
