@@ -235,7 +235,7 @@ function updateDoors(specificDoor)
 		if (not specificDoor or doorID == specificDoor) then
 			if data.doors then
 				for k,v in ipairs(data.doors) do
-					if #(vector2(playerCoords.x, playerCoords.y) - vector2(v.objCoords.x, v.objCoords.y)) < 100 then
+					if #(playerCoords.x - v.objCoords) < 100 then
 						v.object = GetClosestObjectOfType(v.objCoords, 1.0, v.objHash, false, false, false)
 						if data.delete then
 							SetEntityAsMissionEntity(v.object, 1, 1)
@@ -256,7 +256,7 @@ function updateDoors(specificDoor)
 					elseif v.object then RemoveDoorFromSystem(v.doorHash) end
 				end
 			elseif not data.doors then
-				if #(vector2(playerCoords.x, playerCoords.y) - vector2(data.objCoords.x, data.objCoords.y)) < 100 then
+				if #(playerCoords - data.objCoords) < 100 then
 					if data.slides then data.object = GetClosestObjectOfType(data.objCoords, 5.0, data.objHash, false, false, false) else
 						data.object = GetClosestObjectOfType(data.objCoords, 1.0, data.objHash, false, false, false)
 					end
@@ -341,7 +341,7 @@ Citizen.CreateThread(function()
 			local distance
 			for k,v in pairs(Config.DoorList) do
 				if v.setText and v.textCoords then
-					distance = #(vector2(v.textCoords.x, v.textCoords.y) - vector2(playerCoords.x, playerCoords.y))
+					distance = #(v.textCoords - playerCoords)
 					if v.setText and distance < v.maxDistance then
 						closestDoor, closestV, closestDistance = k, v, distance
 					end
