@@ -235,7 +235,7 @@ function updateDoors(specificDoor)
 		if (not specificDoor or doorID == specificDoor) then
 			if data.doors then
 				for k,v in ipairs(data.doors) do
-					if #(playerCoords.x - v.objCoords) < 100 then
+					if #(playerCoords - v.objCoords) < 100 then
 						v.object = GetClosestObjectOfType(v.objCoords, 1.0, v.objHash, false, false, false)
 						if data.delete then
 							SetEntityAsMissionEntity(v.object, 1, 1)
