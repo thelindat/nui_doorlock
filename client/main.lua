@@ -213,7 +213,7 @@ function debug(doorID, data)
 			print(  ('%s = %s'):format(k, v) )
 		end
 		if data.doors then
-			for k, v in pairs(doors) do
+			for k, v in pairs(data.doors) do
 				print('\nCurrent Heading '..k..': '..GetEntityHeading(v.object))
 				print('Current Coords '..k..': '..GetEntityCoords(v.object))
 			end
