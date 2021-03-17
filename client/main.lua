@@ -212,8 +212,15 @@ function debug(doorID, data)
 		for k,v in pairs(data) do
 			print(  ('%s = %s'):format(k, v) )
 		end
-		print('\nCurrent Heading: '..GetEntityHeading(data.object))
-		print('Current Coords: '..GetEntityCoords(data.object))
+		if data.doors then
+			for k, v in pairs(doors) do
+				print('\nCurrent Heading '..k..': '..GetEntityHeading(v.object))
+				print('Current Coords '..k..': '..GetEntityCoords(v.object))
+			end
+		else
+			print('\nCurrent Heading: '..GetEntityHeading(data.object))
+			print('Current Coords: '..GetEntityCoords(data.object))
+		end
 	end
 end
 
