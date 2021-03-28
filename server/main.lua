@@ -7,7 +7,7 @@ Citizen.CreateThread(function()
 	path = path:gsub('//', '/')..'/server/states.json'
 	local file = io.open(path, 'r')
 	if not file or xPlayers == 0 then
-		file = io.open(path, 'a')
+		file = io.open(path, 'w+')
 		for k,v in pairs(Config.DoorList) do
 			doorInfo[k] = v.locked
 		end
