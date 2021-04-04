@@ -409,25 +409,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
-function IsAuthorized(doorID)
-	local canOpen = false
-	if ESX.PlayerData.job == nil then
-		return false
-	end
-	if doorID.authorizedJobs then
-		for job,rank in pairs(doorID.authorizedJobs) do
-			if (job == ESX.PlayerData.job.name and rank <= ESX.PlayerData.job.grade) or (ESX.PlayerData.job2 and job == ESX.PlayerData.job2.name and rank <= ESX.PlayerData.job2.grade) then
-				canOpen = true
-			end
-		end
-	end
-
-	if not canOpen and doorID.items then
-		canOpen = true -- Let the server determine if they have the item to open the door
-	end
-	return canOpen
-end
-
 exports('updateDoors', updateDoors)
 -- Use this export if doors do not load after a teleport event (such as /tp, /setcoords, /jail, etc)
 -- `exports.nui_doorlock:updateDoors()`
