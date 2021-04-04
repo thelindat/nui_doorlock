@@ -414,7 +414,7 @@ exports('updateDoors', updateDoors)
 -- `exports.nui_doorlock:updateDoors()`
 
 RegisterCommand('doorlock', function()
-	if not isDead and not isCuffed and closestDoor and IsAuthorized(closestV) then
+	if not isDead and not isCuffed and closestDoor then
 		if IsControlPressed(0, 86) or IsControlReleased(0, 86) then key = 'e' end
 		local veh = GetVehiclePedIsIn(playerPed)
 		if veh and key == 'e' then
