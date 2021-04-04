@@ -102,9 +102,6 @@ function IsAuthorized(xPlayer, doorID, locked, usedLockpick)
 				if canOpen then break end
 			end
 		end
-		if not canOpen and not doorID.items then
-			print(('nui_doorlock: %s (%s) was not authorized to open a locked door!'):format(xPlayer.getName(), xPlayer.identifier))
-		end
 	end
 
 	if not canOpen and doorID.items then
@@ -122,6 +119,14 @@ function IsAuthorized(xPlayer, doorID, locked, usedLockpick)
 		end
 		if not count or count < 1 then canOpen = false end
 	end
+
+	if not canOpen then
+		local group = xPlayer.getGroup()
+		if group == 'moderator' or group == 'admin' or group == 'superadmin' then
+			canOpen = true
+		end
+	end
+
 	return canOpen
 end
 
