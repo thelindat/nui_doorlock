@@ -8,12 +8,14 @@ versioncheck 'https://raw.githubusercontent.com/thelindat/nui_doorlock/main/fxma
 server_scripts {
 	'@es_extended/locale.lua',
 	'config.lua',
+	'configs/**/*.lua',
 	'server/main.lua'
 }
 
 client_scripts {
 	'@es_extended/locale.lua',
 	'config.lua',
+	'configs/**/*.lua',
 	'client/main.lua'
 }
 
