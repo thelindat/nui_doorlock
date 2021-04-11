@@ -1,11 +1,56 @@
+const newDoorForm = document.getElementById("newDoor");
+const formInfo = {
+    doorname: document.getElementById("doorname"),
+    doortype: document.getElementById("doortype"),
+    doorlocked: {
+        true: document.getElementById("radiot"),
+        false: document.getElementById("radiof"),
+    },
+    job1: document.getElementById("job1"),
+    job2: document.getElementById("job2"),
+    job3: document.getElementById("job3"),
+    job4: document.getElementById("job4"),
+    item: document.getElementById("item"),
+}
+
+windows.addEventListener('message', ({data}) => {
+    if(data.type == "newDoorSetup") {
+        data.enable ? newDoorForm.style.display = "block" : newDoorForm.style.display = "none";
+    }
+    if(data.type == "") {
+        var sound = document.querySelector('#sounds');
+        var volume = (data.audio['volume'] / 10 ) * data.sfx
+        if (data.distance !== 0) {
+            var volume = volume / data.distance
+        }
+        sound.setAttribute('src', 'sounds/' + data.audio['file']);
+        sound.volume = volume;
+		sound.play();
+    }
+})
+
+document.addEventListener('keyup', (e) => {
+    if(e.key == 'Escape') {
+        sendNUICB('close');
+    }
+});
+
+document.querySelector('#newDoor').addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendNUICB('newDoor', ({
+        channel: Info.channel.value, name: Info.name.value}));
+})
+
+function sendNUICB(event, data = {}, cb = () => {}) {
+    fetch(`https://${GetParentResourceName()}/${event}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8', },
+        body: JSON.stringify(data)
+    }).then(resp => resp.json()).then(resp => cb(resp));
+}
+
 $('document').ready(function() {
     $('.form').hide()
-
-    document.onkeydown = function (data) {
-        if (data.which == 27) {
-            $.post('https://nui_doorlock/close');
-        }
-    };
 
     window.addEventListener("message", function (event) {
 

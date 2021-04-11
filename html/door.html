@@ -7,50 +7,64 @@
         <script src="https://kit.fontawesome.com/67f8f2b923.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     </head>
 
     <body>
-        <div class="container">
+        <div class="container" style="display: none;">
             <div class="doorlock"></div>
         </div>
 
         <audio id="sounds"><source type="audio/ogg"></audio>
 
+        <div class="formContainer">
+            <form id='newDoor'>
+                <div>
+                    <text>Config File Name (without .lua)</text>
+                    <input id="configname" type="text" name="configname" placeholder='Required config name' required><br>
+                </div>
 
-        <div class='form'>
-            <center>
-                <p style='font-weight: 500;'>Door Label</p><hr class='line'/>
-                <input id="doorname" type="text" name="doorname" placeholder='Optional door name'><br>
-
-                <p style='font-weight: 500;'>Door Type</p><hr class='line'/>
-                <form height='100%' id="newDoor" name="newDoor" action="#">
-                <select id ='doortype' name='doortype' class='dropdown'>
-                    <option value='door'>Door</option>
-                    <option value='double'>Double Door</option>
-                    <option value='garage'>Garage Door</option>
-                    <option value='sliding'>Sliding Door</option>
-                    <option value='doublesliding'>Double Sliding Door</option>
-                </select>
-                    <p style='font-weight: 500;'>Job Authorisation</p><hr class='line'/>
+                <div>
+                    <text>Door Label</text>
+                    <input id="doorname" type="text" name="doorname" placeholder='Optional door name'><br>
+                </div>
+                
+                <div>
+                    <text>Door Type</text>
+                    <select id ='doortype' name='doortype' class='dropdown'>
+                        <option option value='door'>Door</option>
+                        <option value='double'>Double Door</option>
+                        <option value='garage'>Garage Door</option>
+                        <option value='sliding'>Sliding Door</option>
+                        <option value='doublesliding'>Double Sliding Door</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <text>Job Authorisation</text>
                     <input id="job1" type="text" name="job1" placeholder='police'><br>
                     <input id="job2" type="text" name="job2" placeholder='...'><br>
                     <input id="job3" type="text" name="job3" placeholder='...'><br>
                     <input id="job4" type="text" name="job4" placeholder='...'><br>
-
-                    <p style='font-weight: 500;'>Item Authorisation</p><hr class='line'/>
+                </div>
+                
+                <div>
+                    <text>Item Authorisation</text>
                     <input id="item" type="text" name="item" placeholder='key_lspd'><br>
-
-					<p style='font-weight: 500;'>Locked</p><hr class='line'/>
-						<input type="radio" id="radiot" name="doorlocked" value="true" checked>
-						<label for="radiot">true</label>
-					
-						<input type="radio" id="radiof" name="doorlocked" value="false">
-						<label for="radiof">false</label>
-                    <button id="submit" type="submit" style="position:absolute;bottom:0;left:0;margin:20px; width: calc(100% - 40px);font-size:12pt; font-weight:500;">Submit</button>
-				</center>
-			</form>
-
+                </div>
+                
+                <div>
+                    <text>Locked</text>
+                    <input type="radio" id="radiot" name="doorlocked" value="true" checked>
+                    <label for="radiot">true</label>
+                        
+                    <input type="radio" id="radiof" name="doorlocked" value="false">
+                    <label for="radiof">false</label>
+                </div>
+                
+                <button id="submit" type="submit">Submit</button>
+            </form>
         </div>
-
     </body>
 </html>

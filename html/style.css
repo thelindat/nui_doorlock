@@ -1,8 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap');
 
+body {
+    background-color: rgba(64, 64, 64, 1);
+}
+
 * {
-    color: white;
-    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    font-family: Roboto;
+    font-weight: normal;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.7);
+	user-select: none;
 }
 
 .container {
@@ -25,45 +35,56 @@
     transform: translate(-50%, -20%);
 }
 
-.form {
-    width: 300px;
-    height: 485px;
-    padding: 20px;
-    padding-top: 0;
-    background-color: rgba(10, 10, 10, 1);
-    position: fixed;
-    margin: auto;
-    opacity: 0.9;
-    top: 50%;
-    left: 50%;
-    display: inline-block;
-    transform: translate(-50%, -50%);
-    border-radius:5px;
-    font-size: 10pt;
-    line-height:2pt;
+.formContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.line {
-    border: 0;
-    border-top: 2px solid rgba(255,255,255,0.05);
-    border-radius:2px;
+#newDoor {
+    display: grid;
+    grid-template-rows: 7vh 7vh 7vh 19vh 6.5vh 3.5vh;
+    width: 18%;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 1vh;
+    font-size: 1.5vh;
+    text-align: center;
+}
+
+#newDoor div {
+    margin: 1vh;
+    height: fit-content;
+}
+
+text {
+    font-weight: 500;
+    font-size: 1.5vh;
 }
 
 option {
     color: black;
 }
 
-
-input[type=text], .dropdown, #submit {
-    padding:8px;
-    margin-top:3px;
-    border:0;
+#submit {
+    border: 0;
+    margin: 1vh;
+    padding: 8px;
+    font-size: 1.5vh;
     color: white;
-    width: 100%;
-    border-radius: 4px;
-    background-color: rgba(255,255,255,0.05);
+    border-radius: 1vh;
+    background-color: rgba(240,240,240,0.10);
 }
 
-#submit {
-    padding:2px;
+input[type=text], .dropdown {
+    border:0;
+    padding: 3%;
+    margin-top: 1.5%;
+    font-size: 1.5vh;
+    color: white;
+    width: 100%;
+    border-radius: 1vh;
+    background-color: rgba(240,240,240,0.10);
 }
