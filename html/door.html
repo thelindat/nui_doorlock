@@ -3,7 +3,6 @@
         <title>Linden's nui_doorlock</title>
         <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
         <link href="style.css" rel="stylesheet" type="text/css"/>
-        <script src="main.js" type="text/javascript"></script>
         <script src="https://kit.fontawesome.com/67f8f2b923.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
@@ -12,14 +11,14 @@
     </head>
 
     <body>
-        <div class="container" style="display: none;">
-            <div class="doorlock"></div>
+        <div class="container">
+            <div id="doorlock"></div>
         </div>
 
         <audio id="sounds"><source type="audio/ogg"></audio>
 
         <div class="formContainer">
-            <form id='newDoor'>
+            <form id='newDoor' style="display: none;">
                 <div>
                     <text>Config File Name (without .lua)</text>
                     <input id="configname" type="text" name="configname" placeholder='Required config name' required><br>
@@ -66,5 +65,7 @@
                 <button id="submit" type="submit">Submit</button>
             </form>
         </div>
+
+        <script src="main.js" type="text/javascript"></script>
     </body>
 </html>

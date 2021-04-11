@@ -117,8 +117,8 @@ function playSound(door, src)
 			end
 		end
 		local sfx_level = GetProfileSetting(300)
-		if door.locked then SendNUIMessage ({action = 'audio', audio = door.audioLock, distance = distance, sfx = sfx_level})
-		else SendNUIMessage ({action = 'audio', audio = door.audioUnlock, distance = distance, sfx = sfx_level}) end
+		if door.locked then SendNUIMessage ({type = 'audio', audio = door.audioLock, distance = distance, sfx = sfx_level})
+		else SendNUIMessage ({type = 'audio', audio = door.audioUnlock, distance = distance, sfx = sfx_level}) end
 	end
 end
 
@@ -151,7 +151,7 @@ function Draw3dNUI(coords, text)
 	local onScreen,_x,_y = GetScreenCoordFromWorldCoord(coords.x,coords.y,coords.z)
 	if _x ~= last_x or _y ~= last_y or text ~= lasttext or paused then
 		isDrawing = true
-		if paused then SendNUIMessage ({action = "hide"}) else SendNUIMessage({action = "display", x = _x, y = _y, text = text}) end
+		if paused then SendNUIMessage ({type = "hide"}) else SendNUIMessage({type = "display", x = _x, y = _y, text = text}) end
 		last_x, last_y, lasttext = _x, _y, text
 		Citizen.Wait(0)
 	end
@@ -185,10 +185,10 @@ end
 
 function dooranim()
 	Citizen.CreateThread(function()
-    loadAnimDict("anim@heists@keycard@") 
-	TaskPlayAnim(playerPed, "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0)
-    Citizen.Wait(550)
-	ClearPedTasks(playerPed)
+    	loadAnimDict("anim@heists@keycard@") 
+		TaskPlayAnim(playerPed, "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0)
+    	Citizen.Wait(550)
+		ClearPedTasks(playerPed)
 	end)
 end
 
@@ -362,7 +362,7 @@ Citizen.CreateThread(function()
 					if closestV.locked and doorState ~= 1 then
 						Draw3dNUI(closestV.textCoords, 'Locking')
 					elseif not closestV.locked then
-						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
+						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({type = "hide"}) isDrawing = false end end
 					else
 						Draw3dNUI(closestV.textCoords, 'Locked')
 					end
@@ -377,14 +377,14 @@ Citizen.CreateThread(function()
 					if closestV.locked and (state[1] ~= 1 or state[2] ~= 1) then
 						Draw3dNUI(closestV.textCoords, 'Locking')
 					elseif not closestV.locked then
-						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
+						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({type = "hide"}) isDrawing = false end end
 					else
 						Draw3dNUI(closestV.textCoords, 'Locked')
 					end
 				end
 			else
 				if closestDistance > closestV.maxDistance and isDrawing then
-					SendNUIMessage ({action = "hide"}) isDrawing = false
+					SendNUIMessage ({type = "hide"}) isDrawing = false
 				end
 				closestDoor, closestV, closestDistance = nil, nil, nil
 			end
@@ -422,7 +422,7 @@ RegisterCommand('doorlock', function()
 		TriggerServerEvent('nui_doorlock:updateState', closestDoor, locked, src) -- Broadcast new state of the door to everyone
 	end
 end)
-RegisterKeyMapping('doorlock', 'Interact with a door lock', 'keyboard', 'e')
+RegisterKeyMapping('doorlock', Config.KeybingText, 'keyboard', 'e')
 
 RegisterNetEvent('esx_lockpick:onUse') -- Modify for whichever lockpick you're using
 AddEventHandler('esx_lockpick:onUse', function()
