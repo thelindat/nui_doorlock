@@ -8,11 +8,6 @@ Citizen.CreateThread(function()
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		Citizen.Wait(0)
 	end
-
-	while ESX.GetPlayerData().job == nil do
-		Citizen.Wait(10)
-	end
-	ESX.PlayerData = ESX.GetPlayerData()
 	-- Sync doors with the server
 	Citizen.Wait(1000)
 	ESX.TriggerServerCallback('nui_doorlock:getDoorInfo', function(doorInfo)
@@ -126,16 +121,6 @@ function playSound(door, src)
 		else SendNUIMessage ({action = 'audio', audio = door.audioUnlock, distance = distance, sfx = sfx_level}) end
 	end
 end
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-	ESX.PlayerData.job = job
-end)
-
-RegisterNetEvent('esx:setJob2')
-AddEventHandler('esx:setJob2', function(job)
-	ESX.PlayerData.job2 = job
-end)
 
 AddEventHandler('esx:onPlayerDeath', function(data)
 	isDead = true
