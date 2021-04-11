@@ -443,6 +443,7 @@ function closeNUI()
 end
 
 RegisterNUICallback('newDoor', function(data, cb)
+	print(json.encode(data, {indent=true}))
 	receivedDoorData = true
 	arg = data
 	closeNUI()

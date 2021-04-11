@@ -1,14 +1,14 @@
+const formContainer = document.getElementById('formContainer');
 const newDoorForm = document.getElementById('newDoor');
 const sound = document.getElementById('sounds');
+const doorlockContainer = document.getElementById('container');
 const doorlock = document.getElementById('doorlock');
 
 const formInfo = {
+    configname: document.getElementById('configname'),
     doorname: document.getElementById('doorname'),
     doortype: document.getElementById('doortype'),
-    doorlocked: {
-        true: document.getElementById('radiot'),
-        false: document.getElementById('radiof'),
-    },
+    doorlocked: document.getElementById('doorlocked'),
     job1: document.getElementById('job1'),
     job2: document.getElementById('job2'),
     job3: document.getElementById('job3'),
@@ -18,9 +18,8 @@ const formInfo = {
 
 window.addEventListener('message', ({data}) => {
     if(data.type == "newDoorSetup") {
-        data.enable ? newDoorForm.style.display = "block" : newDoorForm.style.display = "none";
-
-        // Rest of the logic soon
+        data.enable ? formContainer.style.display = "flex" : formContainer.style.display = "none";
+        data.enable ? doorlockContainer.style.display = "none" : doorlockContainer.style.display = "block";
     }
 
     if(data.type == "audio") {
@@ -54,7 +53,7 @@ window.addEventListener('message', ({data}) => {
             doorlock.style.top = y;
         }
     }
-    
+
     if(data.type == "hide") {
         doorlock.innerHTML = '';
         doorlock.style.display = 'none';
@@ -67,10 +66,19 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-document.querySelector('#newDoor').addEventListener('submit', (e) => {
+document.getElementById('newDoor').addEventListener('submit', (e) => {
     e.preventDefault();
     sendNUICB('newDoor', ({
-        channel: Info.channel.value, name: Info.name.value}));
+        configname: formInfo.configname.value,
+        doorname: formInfo.doorname.value,
+        doortype: formInfo.doortype.value,
+        doorlocked: formInfo.doorlocked.checked,
+        job1: formInfo.job1.value,
+        job2: formInfo.job2.value,
+        job3: formInfo.job3.value,
+        job4: formInfo.job4.value,
+        item: formInfo.item.value,
+    }));
 })
 
 function sendNUICB(event, data = {}, cb = () => {}) {

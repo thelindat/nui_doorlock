@@ -1,7 +1,6 @@
 # <a href='https://forum.cfx.re/t/esx-nui-doorlock-improved-performance-supports-sliding-doors/2068259'>nui_doorlock</a>
 A fork of esx_doorlock, featuring improved performance and improved functionality.
-<p align="center"><i>Resource folder must be <b>nui_doorlock</b></i><br><br>
-<img src='https://i.imgur.com/F7fzgYN.png'></img></p>
+<img src='https://i.imgur.com/aeQr4en.png'></img></p>
 <hr>
 
 <h3 align='center'>For more support or to see more of my resources you can join my <a href='https://discord.gg/hmcmv3P7YW'>discord</a></h3>
@@ -31,7 +30,7 @@ The state of doors is only checked while in range, and the number of checks per 
 States.json will auto-generate if the file does not exist.  
 
 * Config for both Community MRPD and gabz_MRPD  
-Just choose which config file to use and rename if using gabz.
+Just choose which config file to use and delete the one you are not using.
 
 * Set door access permissions  
 Set multiple jobs to be authorised to use a door, with the minimum required grade `authorizedJobs = {['police']=0, ['offpolice']=0}`  
