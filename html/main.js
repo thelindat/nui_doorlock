@@ -37,6 +37,7 @@ window.addEventListener('message', ({data}) => {
             doorlock.innerHTML = '';
             doorlock.style.display = 'none';
         } else {
+            doorlockContainer.style.display = 'block';
             doorlock.style.display = 'block';
             if (data.text == "Locked") {
                 doorlock.innerHTML = '<i style="color:orange" class="fas fa-lock"></i>';

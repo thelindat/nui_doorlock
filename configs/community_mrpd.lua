@@ -1,3 +1,8 @@
+---------------------------------------------------------------
+--	COMMUNITY MISSION ROW PD                                 --
+--	https://www.gta5-mods.com/maps/community-mission-row-pd  --
+---------------------------------------------------------------
+
 -- MRPD MAIN ENTRANCE
 table.insert(Config.DoorList, {
     maxDistance = 2.5,

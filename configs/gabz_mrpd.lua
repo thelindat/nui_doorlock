@@ -1,3 +1,7 @@
+------------------------------------------
+--	MISSION ROW POLICE DEPARTMENT		--
+------------------------------------------
+
 -- gabz_mrpd    FRONT DOORS
 table.insert(Config.DoorList, {
     maxDistance = 2,
@@ -193,6 +197,7 @@ table.insert(Config.DoorList, {
     objHash = -1406685646,
     objCoords = vector3(475.9539, -1010.819, 26.40639),
     locked = true,
+    fixText = true,
     objHeading = 180,
     maxDistance = 2,
     authorizedJobs = {
