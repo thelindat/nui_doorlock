@@ -120,14 +120,13 @@ function IsAuthorized(xPlayer, doorID, locked, usedLockpick)
 		if not count or count < 1 then canOpen = false end
 	end
 
---[[		DISABLED	Because I'm sick of people telling me every job is able to use the door when the person is staff
 	if not canOpen then
 		local group = xPlayer.getGroup()
-		if group == 'moderator' or group == 'admin' or group == 'superadmin' then
+		if group == 'admin' or group == 'superadmin' then
+			print(group..' '..xPlayer.getName..' was authorised to use a door')
 			canOpen = true
 		end
 	end
-]]
 
 	return canOpen
 end
