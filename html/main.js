@@ -1,66 +1,91 @@
-$('document').ready(function() {
-    $('.form').hide()
+const formContainer = document.getElementById('formContainer');
+const newDoorForm = document.getElementById('newDoor');
+const sound = document.getElementById('sounds');
+const doorlockContainer = document.getElementById('container');
+const doorlock = document.getElementById('doorlock');
 
-    document.onkeydown = function (data) {
-        if (data.which == 27) {
-            $.post('https://nui_doorlock/close');
+const formInfo = {
+    configname: document.getElementById('configname'),
+    doorname: document.getElementById('doorname'),
+    doortype: document.getElementById('doortype'),
+    doorlocked: document.getElementById('doorlocked'),
+    job1: document.getElementById('job1'),
+    job2: document.getElementById('job2'),
+    job3: document.getElementById('job3'),
+    job4: document.getElementById('job4'),
+    item: document.getElementById('item'),
+}
+
+window.addEventListener('message', ({data}) => {
+    if(data.type == "newDoorSetup") {
+        data.enable ? formContainer.style.display = "flex" : formContainer.style.display = "none";
+        data.enable ? doorlockContainer.style.display = "none" : doorlockContainer.style.display = "block";
+    }
+
+    if(data.type == "audio") {
+        var volume = (data.audio['volume'] / 10 ) * data.sfx
+        if (data.distance !== 0) {
+            var volume = volume / data.distance
         }
-    };
+        sound.setAttribute('src', 'sounds/' + data.audio['file']);
+        sound.volume = volume;
+		sound.play();
+    }
 
-    window.addEventListener("message", function (event) {
-
-        if (event.data.type == "newDoorSetup") {
-            event.data.enable ? $('.form').show() : $('.form').hide();
-
-            $("#newDoor").submit(function(event) {                       
-                $.post('https://nui_doorlock/newDoor', JSON.stringify({
-                    doorname: $("#doorname").val(),
-                    doortype: $("#doortype").val(),
-                    doorlocked: $("input[type='radio'][name='doorlocked']:checked").val(),
-                    job1: $("#job1").val(),
-                    job2: $("#job2").val(),
-                    job3: $("#job3").val(),
-                    job4: $("#job4").val(),
-                    item: $("#item").val()
-                }));
-            });
-		}
-
-        if (event.data.action == 'audio') {
-            var sound = document.querySelector('#sounds');
-            var volume = (event.data.audio['volume'] / 10 ) * event.data.sfx
-
-            if (event.data.distance !== 0) {
-                var volume = volume / event.data.distance
+    if(data.type == "display") {
+        if(data.text == undefined) {
+            doorlock.innerHTML = '';
+            doorlock.style.display = 'none';
+        } else {
+            doorlockContainer.style.display = 'block';
+            doorlock.style.display = 'block';
+            if (data.text == "Locked") {
+                doorlock.innerHTML = '<i style="color:orange" class="fas fa-lock"></i>';
+            } else if (data.text == "Unlocked") {
+                doorlock.innerHTML = '<i style="color:limegreen" class="fas fa-unlock"></i>';
+            } else if (data.text == "Locking") {
+                doorlock.innerHTML = '<i style="color:orange" class="fas fa-lock"><br>Locking</i>';
             }
-            sound.setAttribute('src', 'sounds/' + event.data.audio['file']);
-            sound.volume = volume;
-			sound.play();
+    
+            let x = (data.x * 100) + '%';
+            let y = (data.y * 100) + '%';
+
+            doorlock.style.left = x;
+            doorlock.style.top = y;
         }
-        else
-        {
-            if (event.data.text == "Locked") {
-                event.data.text = '<i style="color:orange" class="fas fa-lock"></i>'
-            } else if (event.data.text == "Unlocked") {
-                event.data.text = '<i style="color:limegreen" class="fas fa-unlock"></i>'
-            } else if (event.data.text == "Locking") {
-                event.data.text = '<i style="color:orange" class="fas fa-lock"><br>Locking</i>'
-            }
+    }
 
-            event.x = (event.data.x * 100) + '%';
-            event.y = (event.data.y * 100) + '%';
-            if (event.data.text == undefined) {event.data.action = "hide"}
-            $('.doorlock').html(event.data.text);
-            $('.doorlock').css({ "left": event.x, "top": event.y });
+    if(data.type == "hide") {
+        doorlock.innerHTML = '';
+        doorlock.style.display = 'none';
+    }
+})
 
-            if (event.data.action == "display") {
-                $('.doorlock').show()
-                $('.container').show()
-            } else if (event.data.action == "hide") {
-                $('.doorlock').html('');
-                $('.doorlock').hide()
-                $('.container').hide()
-            }
-        }
-    })
+document.addEventListener('keyup', (e) => {
+    if(e.key == 'Escape') {
+        sendNUICB('close');
+    }
 });
+
+document.getElementById('newDoor').addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendNUICB('newDoor', {
+        configname: formInfo.configname.value,
+        doorname: formInfo.doorname.value,
+        doortype: formInfo.doortype.value,
+        doorlocked: formInfo.doorlocked.checked,
+        job1: formInfo.job1.value,
+        job2: formInfo.job2.value,
+        job3: formInfo.job3.value,
+        job4: formInfo.job4.value,
+        item: formInfo.item.value,
+    });
+})
+
+function sendNUICB(event, data = {}, cb = () => {}) {
+    fetch(`https://${GetParentResourceName()}/${event}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8', },
+        body: JSON.stringify(data)
+    }).then(resp => resp.json()).then(resp => cb(resp));
+}

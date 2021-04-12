@@ -1,11 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap');
-
 * {
-    color: white;
-    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    font-family: Roboto;
+    font-weight: normal;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.8);
+	user-select: none;
+    overflow: hidden;
 }
 
-.container {
+#container {
     width: 100%;
     height: 100%;
     opacity: 0.7;
@@ -13,7 +18,7 @@
     color: white;
 }
 
-.doorlock {
+#doorlock {
     width: 100px;
     height: 100px;
     position: fixed;
@@ -25,45 +30,69 @@
     transform: translate(-50%, -20%);
 }
 
-.form {
-    width: 300px;
-    height: 485px;
-    padding: 20px;
-    padding-top: 0;
-    background-color: rgba(10, 10, 10, 1);
-    position: fixed;
-    margin: auto;
-    opacity: 0.9;
-    top: 50%;
-    left: 50%;
-    display: inline-block;
-    transform: translate(-50%, -50%);
-    border-radius:5px;
-    font-size: 10pt;
-    line-height:2pt;
+#formContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.line {
-    border: 0;
-    border-top: 2px solid rgba(255,255,255,0.05);
-    border-radius:2px;
+#newDoor {
+    display: grid;
+    grid-template-rows: 7vh 7vh 7vh 19.5vh 7vh 3.2vh 4vh;
+    width: 35vh;
+    padding: 1vh;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 1vh;
+    font-size: 1.5vh;
+    text-align: center;
+}
+
+#newDoor div {
+    height: fit-content;
+}
+
+text {
+    vertical-align: middle;
+    font-weight: 500;
+    font-size: 1.5vh;
 }
 
 option {
     color: black;
 }
 
-
-input[type=text], .dropdown, #submit {
-    padding:8px;
-    margin-top:3px;
-    border:0;
-    color: white;
+#submit {
+    border: 0;
     width: 100%;
-    border-radius: 4px;
-    background-color: rgba(255,255,255,0.05);
+    height: 3.5vh;
+    font-size: 1.5vh;
+    color: white;
+    border-radius: 1vh;
+    background-color: rgba(240,240,240,0.10);
 }
 
-#submit {
-    padding:2px;
+input[type=text], .dropdown {
+    border:0;
+    padding: 3%;
+    margin-top: 1.5%;
+    font-size: 1.5vh;
+    color: white;
+    width: 100%;
+    text-align: center;
+    border-radius: 1vh;
+    background-color: rgba(240,240,240,0.10);
+}
+
+.customCheckBox {
+    cursor: pointer;
+    font-size: 1.5vh;
+}
+  
+.customCheckBox input {
+    vertical-align: middle;
+    height: 1.5vh;
+    width: 1.5vh;
 }

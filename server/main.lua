@@ -137,7 +137,7 @@ RegisterCommand('newdoor', function(playerId, args, rawCommand)
 end, true)
 
 RegisterServerEvent('nui_doorlock:newDoorCreate')
-AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, doubleDoor, doorname)
+AddEventHandler('nui_doorlock:newDoorCreate', function(config, model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, doubleDoor, doorname)
 	xPlayer = ESX.GetPlayerFromId(source)
 	if not IsPlayerAceAllowed(source, 'command.newdoor') then print(xPlayer.getName().. 'attempted to create a new door but does not have permission') return end
 	doorLocked = tostring(doorLocked)
@@ -169,7 +169,13 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 		newDoor.audioRemote = false
 		newDoor.lockpick = false
 	local path = GetResourcePath(GetCurrentResourceName())
-	path = path:gsub('//', '/')..'/config.lua'
+	
+	if config ~= '' then
+		path = path:gsub('//', '/')..'/configs/'..string.gsub(config, ".lua", "")..'.lua'
+	else
+		path = path:gsub('//', '/')..'/config.lua'
+	end
+
 
 	file = io.open(path, 'a+')
 	if not doorname then label = '\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\ntable.insert(Config.DoorList, {'
