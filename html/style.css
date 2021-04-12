@@ -40,8 +40,9 @@
 
 #newDoor {
     display: grid;
-    grid-template-rows: 7vh 7vh 7vh 19vh 7vh 3.8vh 6vh;
-    width: 18%;
+    grid-template-rows: 7vh 7vh 7vh 19.5vh 7vh 3.2vh 4vh;
+    width: 35vh;
+    padding: 1vh;
     height: fit-content;
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: 1vh;
@@ -50,7 +51,6 @@
 }
 
 #newDoor div {
-    margin: 1vh;
     height: fit-content;
 }
 
@@ -66,8 +66,8 @@ option {
 
 #submit {
     border: 0;
-    margin: 1vh 1.2vh;
-    padding: 8px;
+    width: 100%;
+    height: 3.5vh;
     font-size: 1.5vh;
     color: white;
     border-radius: 1vh;

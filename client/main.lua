@@ -575,7 +575,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			RemoveDoorFromSystem(doorHash[i])
 		end
 		if arg then doorname = arg.doorname end
-		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, true, doorname)
+		TriggerServerEvent('nui_doorlock:newDoorCreate', arg.configname, model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, true, doorname)
 		print('Successfully sent door data to the server')
 		arg = nil
 	end
