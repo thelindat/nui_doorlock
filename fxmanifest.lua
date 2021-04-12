@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 games { 'gta5' }
 
-version '1.9.16'
+version '1.10.0'
 description 'https://github.com/thelindat/nui_doorlock'
 versioncheck 'https://raw.githubusercontent.com/thelindat/nui_doorlock/main/fxmanifest.lua'
 
