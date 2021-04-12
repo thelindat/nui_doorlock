@@ -440,6 +440,7 @@ end)
 function closeNUI()
 	SetNuiFocus(false, false)
 	SendNUIMessage({type = "newDoorSetup", enable = false})
+	receivedDoorData = nil
 end
 
 RegisterNUICallback('newDoor', function(data, cb)
@@ -462,8 +463,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		receivedDoorData = false
 		SetNuiFocus(true, true)
 		SendNUIMessage({type = "newDoorSetup", enable = true})
-		while not receivedDoorData do Citizen.Wait(100) end
-		receivedDoorData = false
+		while receivedDoorData == false do Citizen.Wait(5) DisableAllControlActions(0) end
 	end
 	--if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
 	if arg then doorType = arg.doortype else doorType = args[1] end
