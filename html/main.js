@@ -68,7 +68,7 @@ document.addEventListener('keyup', (e) => {
 
 document.getElementById('newDoor').addEventListener('submit', (e) => {
     e.preventDefault();
-    sendNUICB('newDoor', ({
+    sendNUICB('newDoor', {
         configname: formInfo.configname.value,
         doorname: formInfo.doorname.value,
         doortype: formInfo.doortype.value,
@@ -78,7 +78,7 @@ document.getElementById('newDoor').addEventListener('submit', (e) => {
         job3: formInfo.job3.value,
         job4: formInfo.job4.value,
         item: formInfo.item.value,
-    }));
+    });
 })
 
 function sendNUICB(event, data = {}, cb = () => {}) {

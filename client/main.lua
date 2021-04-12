@@ -443,7 +443,6 @@ function closeNUI()
 end
 
 RegisterNUICallback('newDoor', function(data, cb)
-	print(json.encode(data, {indent=true}))
 	receivedDoorData = true
 	arg = data
 	closeNUI()
@@ -514,7 +513,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		heading = GetEntityHeading(entity)
 		RemoveDoorFromSystem(doorHash)
 		if arg then doorname = arg.doorname end
-		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, false, doorname)
+		TriggerServerEvent('nui_doorlock:newDoorCreate', arg.configname, model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, false, doorname)
 		print('Successfully sent door data to the server')
 	elseif doorType == 'double' or doorType == 'doublesliding' then
 		local entity, coords, heading, model = {}, {}, {}, {}
