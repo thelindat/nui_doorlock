@@ -1,7 +1,7 @@
 Config = {}
+Config.DoorList = {}
 Config.ShowUnlockedText = false
 Config.CheckVersion = true
-Config.CheckVersionDelay = 60 -- Minutes
-Config.KeybingText = 'Interact with a door lock'
 
-Config.DoorList = {}
+-- Allow players with access to /newdoor to open any door
+Config.AdminAccess = false
