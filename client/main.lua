@@ -134,12 +134,14 @@ local DoorLoop = function()
 						local door = Config.DoorList[k]
 						if door.setText and door.textCoords then
 							distance = #(door.textCoords - playerCoords)
-							if distance < closestDoor.distance or distance < door.maxDistance then
-								closestDoor = {distance = distance, id = k, data = door}
-								doorSleep = 0
+							if distance < closestDoor.distance or 10 then
+								if distance < door.maxDistance then
+									closestDoor = {distance = distance, id = k, data = door}
+									doorSleep = 0
+								end
 							end
 						end
-						Citizen.Wait(10)
+						Citizen.Wait(5)
 					end
 				end
 			end
@@ -322,8 +324,18 @@ function debug(doorID, data)
 	end
 end
 
+RegisterNetEvent('esx_policejob:handcuff')
+AddEventHandler('esx_policejob:handcuff', function()
+	isCuffed = not isCuffed
+end)
+
+RegisterNetEvent('esx_policejob:unrestrain')
+AddEventHandler('esx_policejob:unrestrain', function()
+	isCuffed = false
+end)
+
 RegisterCommand('doorlock', function()
-	if closestDoor.id and ESX.CanPerformAction() then
+	if closestDoor.id and not ESX.PlayerData.dead and not isCuffed then
 		local veh = GetVehiclePedIsIn(ESX.PlayerData.ped)
 		if veh then
 			Citizen.CreateThread(function()
