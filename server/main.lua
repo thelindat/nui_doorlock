@@ -28,8 +28,8 @@ AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLo
 
 	if Config.DoorList[doorID].autoLock then
 		SetTimeout(Config.DoorList[doorID].autoLock, function()
-			if Config.DoorList[doorID] == true then return end
-			Config.DoorList[doorID] = true
+			if Config.DoorList[doorID].locked == true then return end
+			Config.DoorList[doorID].locked = true
 			TriggerClientEvent('nui_doorlock:setState', -1, -1, doorID, true)
 		end)
 	end
