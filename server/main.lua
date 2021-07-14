@@ -169,7 +169,7 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(config, model, heading, c
 	if item then newDoor.Items = { item } end
 
 	Config.DoorList[doorID] = newDoor
-	Config.DoorList[doorID] = doorLocked 
+	Config.DoorList[doorID].locked = doorLocked 
 	TriggerClientEvent('nui_doorlock:newDoorAdded', -1, newDoor, doorID, doorLocked)
 end)
 
