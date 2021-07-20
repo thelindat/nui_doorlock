@@ -65,10 +65,9 @@ else
 		end
 
 		if doorID.items then
-			local count
-			for k,v in pairs(doorID.items) do
-				count = xPlayer.getInventoryItem(k).count
-				if count > 0 then
+			for k in pairs(doorID.items) do
+				local item = xPlayer.getInventoryItem(k)
+				if item and item.count > 0 then
 					local consumables = {'ticket'} -- Add items you would like to be removed after use to this table
 					if locked and consumables[k] then
 						xPlayer.removeInventoryItem(k, 1)
