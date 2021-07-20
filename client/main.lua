@@ -390,6 +390,21 @@ else
 		closeNUI()
 	end, false)
 
+	local Raycast = function()
+		local offset = GetOffsetFromEntityInWorldCoords(GetCurrentPedWeaponEntityIndex(ESX.PlayerData.ped), 0, 0, -0.01)
+		local direction = GetGameplayCamRot()
+		direction = vector2(direction.x * math.pi / 180.0, direction.z * math.pi / 180.0)
+		local num = math.abs(math.cos(direction.x))
+		direction = vector3((-math.sin(direction.y) * num), (math.cos(direction.y) * num), math.sin(direction.x))
+		local destination = vector3(offset.x + direction.x * 30, offset.y + direction.y * 30, offset.z + direction.z * 30)
+		local rayHandle, result, hit, endCoords, surfaceNormal, entityHit = StartShapeTestLosProbe(offset, destination, -1, ESX.PlayerData.ped, 0)
+		repeat
+			result, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(rayHandle)
+			Citizen.Wait(0)
+		until result ~= 1
+		if GetEntityType(entityHit) == 3 then return hit, entityHit else return false end
+	end
+
 	RegisterNetEvent('nui_doorlock:newDoorSetup')
 	AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		if not args[1] then
@@ -410,18 +425,25 @@ else
 			local result = false
 			print('Aim at your desired door and press left mouse button')
 			while true do
-				Citizen.Wait(0)
 				if IsPlayerFreeAiming(PlayerId()) then
-					result, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
-					coords = GetEntityCoords(entity)
-					model = GetEntityModel(entity)
-					heading = GetEntityHeading(entity)
-				end
+					local result, object = Raycast()
+					if result and object ~= entity then
+						SetEntityDrawOutline(entity, false)
+						SetEntityDrawOutline(object, true)
+						entity = object
+						coords = GetEntityCoords(entity)
+						model = GetEntityModel(entity)
+						heading = GetEntityHeading(entity)
+					end
+				else Citizen.Wait(0) end
 				if result then DrawInfos("Coordinates: " .. coords .. "\nHeading: " .. heading .. "\nHash: " .. model)
 			else DrawInfos("Aim at your desired door and shoot") end
-				if IsControlJustPressed(0, 24) then break end
+				if entity and IsControlPressed(0, 24) then break end
 			end
+			SetEntityDrawOutline(entity, false)
 			if not model or model == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
+			local result, door = DoorSystemFindExistingDoor(coords.x, coords.y, coords.z, model)
+			if result then return print('This door is already registered') end
 			local jobs = {}
 			if args[3] then
 				jobs[1] = args[3]
@@ -452,33 +474,33 @@ else
 			local entity, coords, heading, model = {}, {}, {}, {}
 			local result = false
 			print('Aim at each desired door and press left mouse button')
-			while true do
-				Citizen.Wait(0)
-				if IsPlayerFreeAiming(PlayerId()) then
-					result, entity[1] = GetEntityPlayerIsFreeAimingAt(PlayerId())
-					coords[1] = GetEntityCoords(entity[1])
-					model[1] = GetEntityModel(entity[1])
-					heading[1] = GetEntityHeading(entity[1])
-				end
-				if result then DrawInfos("Coordinates: " .. coords[1] .. "\nHeading: " .. heading[1] .. "\nHash: " .. model[1])
+			for i=1, 2 do
+				while true do
+					if IsPlayerFreeAiming(PlayerId()) then
+						local result, object = Raycast()
+						if result and object ~= entity[i] then
+							SetEntityDrawOutline(entity[i], false)
+							SetEntityDrawOutline(object, true)
+							entity[i] = object
+							coords[i] = GetEntityCoords(object)
+							model[i] = GetEntityModel(object)
+							heading[i] = GetEntityHeading(object)
+						end
+					else Citizen.Wait(0) end
+					if result then DrawInfos("Coordinates: " .. coords[i] .. "\nHeading: " .. heading[i] .. "\nHash: " .. model[i])
 				else DrawInfos("Aim at your desired door and shoot") end
-				if IsControlJustPressed(0, 24) then break end
-			end
-			result = false
-			while true do
-				Citizen.Wait(0)
-				if IsPlayerFreeAiming(PlayerId()) then
-					result, entity[2] = GetEntityPlayerIsFreeAimingAt(PlayerId())
-					coords[2] = GetEntityCoords(entity[2])
-					model[2] = GetEntityModel(entity[2])
-					heading[2] = GetEntityHeading(entity[2])
+					if entity[i] and IsControlPressed(0, 24) then break end
 				end
-				if result then DrawInfos("Coordinates: " .. coords[2] .. "\nHeading: " .. heading[2] .. "\nHash: " .. model[2])
-				else DrawInfos("Aim at your desired door and shoot") end
-				if IsControlJustPressed(0, 24) then break end
+				Citizen.Wait(200)
 			end
+			SetEntityDrawOutline(entity[1], false)
+			SetEntityDrawOutline(entity[2], false)
 			if not model[1] or model[1] == 0 or not model[2] or model[2] == 0 then print('Did not receive a model hash\nIf the door is transparent, make sure you aim at the frame') return end
 			if entity[1] == entity[2] then print('Can not add double door if entities are the same') return end
+			for i=1, 2 do
+				local result, door = DoorSystemFindExistingDoor(coords[i].x, coords[i].y, coords[i].z, model[i])
+				if result then return print('This door is already registered') end
+			end
 			local jobs = {}
 			if args[3] then
 				jobs[1] = args[3]
