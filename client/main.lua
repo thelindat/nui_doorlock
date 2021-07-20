@@ -121,7 +121,7 @@ local DoorLoop = function()
 	ESX.TriggerServerCallback('nui_doorlock:getDoorList', function(doorList)
 		Config.DoorList = doorList
 		UpdateDoors()
-		while true do
+		while ESX.PlayerLoaded do
 			playerCoords = GetEntityCoords(ESX.PlayerData.ped)
 			local doorSleep = 1000
 			if not closestDoor.id then
