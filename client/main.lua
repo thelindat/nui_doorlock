@@ -1,9 +1,10 @@
 if not ESX then
 	SetTimeout(3000, print('[^3WARNING^7] Unable to start NUI Doorlock - ensure you are using ESX Legacy'))
 else
-	local playerCoords, doorCount
+	local Config = Config
+
+	local isCuffed, playerCoords, doorCount = false
 	local nearbyDoors, closestDoor = {}, {}
-	local isCuffed = false
 
 	local round = function(num, decimal)
 		local mult = 10^(decimal)
@@ -360,7 +361,7 @@ else
 		end
 	end)
 	TriggerEvent("chat:removeSuggestion", "/doorlock")
-	RegisterKeyMapping('doorlock', 'Interact with doorlock~', 'keyboard', 'e')
+	RegisterKeyMapping('doorlock', '[Doorlock] Interact with doorlock~', 'keyboard', 'e')
 
 
 	--[[RegisterNetEvent('nui_doorlock:lockpick') -- Set up your own lockpick event here
