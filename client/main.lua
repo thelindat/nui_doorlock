@@ -1,5 +1,5 @@
 if not ESX then
-	SetTimeout(3000, print('[^3WARNING^7] Unable to start NUI Doorlock - ensure you are using ESX Legacy'))
+	SetTimeout(3000, function() print('[^3WARNING^7] Unable to start NUI Doorlock - ensure you are using ESX Legacy') end)
 else
 	local Config = Config
 
