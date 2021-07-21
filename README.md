@@ -1,4 +1,5 @@
 #### Against my better judgement I have updated this resource. Requires [ESX Legacy aka 1.3](https://github.com/esx-framework/esx-legacy)
+I've disabled issues because I can only spend so much time a day repeating myself.
 
 # <a href='https://forum.cfx.re/t/esx-nui-doorlock-improved-performance-supports-sliding-doors/2068259'>nui_doorlock</a>
 A fork of esx_doorlock, featuring improved performance and improved functionality.
